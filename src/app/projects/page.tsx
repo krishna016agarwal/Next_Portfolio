@@ -1,4 +1,5 @@
 import React from 'react'
+import Card from '../components/card'
 
 export default function page() {
   return (
@@ -12,6 +13,9 @@ export default function page() {
       <div className='flex flex-col'>
       <div className='mt-30! text-[11vw]! mx-auto! ' style={{ fontFamily: 'Fjalla One', fontWeight: 'normal',color: '#b6dd9d' }}>
         PROJECTS
+      </div>
+      <div className=''>
+        <Card></Card>
       </div>
       </div>
     </>
