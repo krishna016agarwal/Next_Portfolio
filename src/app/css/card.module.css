@@ -1,0 +1,88 @@
+.card {
+    background-color: rgb(25, 25, 25);
+    padding: 7px;
+    color: rgb(215, 215, 215);
+    transition: all 0.3s ease-in;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* On hover card background changes */
+  .card:hover {
+    background-color: #b8afd4;
+    color: black;
+  }
+  
+  /* Shared section styles */
+  .details {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    transition: transform .5s ease, opacity .1s ease;
+  }
+  
+  
+  .detailshover {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    transition: transform .5s ease, opacity .1s ease;
+  }
+  
+  /* Default state */
+  .details {
+    transform: translateY(0);
+    opacity: 1;
+    z-index: 2;
+  
+    height:110px
+  }
+  
+  .detailshover {
+    transform: translateY(70px);
+    opacity: 0;
+    z-index: 1;
+  }
+  
+  /* Hover state changes */
+  .card:hover .details {
+    transform: translateY(-70px);
+    opacity: 0;
+    z-index: 1;
+  }
+  
+  .card:hover .detailshover {
+    transform: translateY(0);
+    opacity: 1;
+    z-index: 2;
+  }
+  
+  /* Tech styling */
+  .tech {
+    margin-right: 5px;
+    text-transform: uppercase;
+  }
+  
+  /* Button styling */
+  .button {
+    cursor: pointer;
+  
+    
+   
+    border: none;
+    
+  }
+  
+  
+  
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 1rem;
+  }
+  

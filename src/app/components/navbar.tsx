@@ -1,7 +1,7 @@
 import { MdOutlineMenu } from "react-icons/md";
 export default function Navbar() {
     return (
-      <div className="h-20 flex justify-between  items-center ml-10 fixed top-0 left-0 w-full  shadow-md z-50  p-12!">
+      <div className="h-20 flex justify-between  items-center ml-10 fixed top-0 left-0 w-full  shadow-md z-50! bg-black  p-12!">
         <div className="text-white text-2xl font-extrabold ">
           Port<span className="text-gray-400">folio.</span>
         </div>

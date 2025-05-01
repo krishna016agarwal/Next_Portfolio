@@ -10,11 +10,11 @@ export default function page() {
           rel="stylesheet"
         />
       </head>
-      <div className='flex flex-col'>
-      <div className='mt-30! text-[11vw]! mx-auto! ' style={{ fontFamily: 'Fjalla One', fontWeight: 'normal',color: '#b6dd9d' }}>
+      <div className='flex flex-col  '>
+      <div className='mt-30! text-[11vw]! mx-auto!' style={{ fontFamily: 'Fjalla One', fontWeight: 'normal',color: '#b6dd9d' }}>
         PROJECTS
       </div>
-      <div className=''>
+      <div >
         <Card></Card>
       </div>
       </div>

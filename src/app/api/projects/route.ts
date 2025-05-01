@@ -8,12 +8,16 @@ import ProjectModel from '@/model/project'; // adjust this if needed
 import dbConnect from '@/lib/dbConnect'; // adjust this path if needed
 
 export const dynamic = 'force-dynamic';
-
 export async function POST(req: Request) {
   await dbConnect();
 
   try {
     const { fields, files } = await parseFormData(req);
+
+    // Split the 'technologiesUsed' field by commas and trim any extra spaces
+    const technologiesArray = fields.technologiesUsed
+      ? fields.technologiesUsed.split(',').map((tech:any) => tech.trim())
+      : [];
 
     const localImagePath = files.image?.filepath;
     const cloudinaryUrl = await uploadOnCloudinary(localImagePath);
@@ -24,7 +28,7 @@ export async function POST(req: Request) {
       name: fields.name,
       github: fields.github,
       projectLink: fields.projectLink,
-      technologiesUsed: fields.technologiesUsed,
+      technologiesUsed: technologiesArray, // Now an array of technologies
       image: cloudinaryUrl,
     });
 
@@ -41,6 +45,7 @@ export async function POST(req: Request) {
     );
   }
 }
+
 export async function GET(req: Request) {
   await dbConnect();
   const data = await ProjectModel.find();
@@ -64,51 +69,79 @@ export async function GET(req: Request) {
 }
 
 
-export async function PATCH(req: Request) {
+export async function PATCH(req: NextRequest) {
   await dbConnect();
 
   try {
-    const { id, updates } = await req.json();
+    const { fields, files } = await parseFormData(req); // Parse the form data
+console.log(fields,files);
 
-    if (!id || !updates || typeof updates !== "object") {
-      return Response.json({
+    const projectId = fields.id;
+    if (!projectId) {
+      return NextResponse.json({
         success: false,
-        message: "Invalid request format",
-      });
+        message: "Project ID is required.",
+      }, { status: 400 });
     }
 
+    
+    // Handle the image upload (if a new image is provided)
+    let cloudinaryUrl = fields.image; // Default to existing image URL (if not updating the image)
+    if (files.image) {
+      const localImagePath = files.image?.filepath;
+      cloudinaryUrl = await uploadOnCloudinary(localImagePath);
+
+      // Delete the local image after upload to Cloudinary
+      if (fs.existsSync(localImagePath)) fs.unlinkSync(localImagePath);
+    }
+
+
+    // Construct the update object based on the fields
+    const updates = {
+      name: fields.name,
+      github: fields.github,
+      projectLink: fields.projectLink,
+      
+      image: cloudinaryUrl, // Update the image field (if provided)
+    };
+    if ('technologiesUsed' in fields) {
+      updates.technologiesUsed = fields.technologiesUsed
+        .split(',')
+        .map((tech: any) => tech.trim());
+    }
+    // Update the project in the database
     const updatedProject = await ProjectModel.findByIdAndUpdate(
-      id,
+      projectId,
       { $set: updates },
       { new: true, runValidators: true }
     );
 
     if (!updatedProject) {
-      return Response.json({
+      return NextResponse.json({
         success: false,
         message: "Project not found",
-      });
+      }, { status: 404 });
     }
 
-    return Response.json({
+    return NextResponse.json({
       success: true,
       message: "Project updated successfully",
-      data: updatedProject,
+      project: updatedProject,
     });
   } catch (error) {
     console.error("Error updating project:", error);
-    return Response.json({
-      success: false,
-      message: "Error updating project",
-    });
+    return NextResponse.json(
+      { success: false, message: "Failed to update project" },
+      { status: 500 }
+    );
   }
 }
-
 export async function DELETE(req: Request) {
   await dbConnect();
 
   try {
     const {id} = await req.json();
+
 
     const project = await ProjectModel.findByIdAndDelete(id);
     if (project) {
@@ -117,6 +150,10 @@ export async function DELETE(req: Request) {
       })
     }
 
+return Response.json({
+      success: false,
+      message: "Project not found"
+    })
   } catch (error) {
     console.log('Error in project submission');
     return Response.json({
