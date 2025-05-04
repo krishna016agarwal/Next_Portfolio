@@ -1,0 +1,93 @@
+.div{
+ display: flex;
+ flex-direction: column;
+ margin-top: 200px;
+padding: 0px 50px;
+ height: 100%;
+ width: 100%;
+ .section{
+    display: flex;
+   gap:20px;
+    .mainsub{
+        display: flex;
+        flex-direction: column;
+    }
+ }
+
+}
+.sectionpart{
+   
+    
+}
+.head{
+    font-weight: 500;
+    font-size: x-large;
+}
+.abouttext{
+    font-size: x-large;
+    color:rgb(208, 208, 208)
+}
+.mainsub{
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+  
+    width: 65%;
+}
+.outer{
+    display: flex;
+    flex-direction: column;
+    gap:100px;
+}
+.scroll {
+  position: relative;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #fff 20%,
+    #fff 80%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #fff 20%,
+    #fff 80%,
+    transparent
+  );
+}
+
+.scrollContent {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scrollAnim 30s linear infinite;
+}
+
+@keyframes scrollAnim {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.scrollContent span {
+  display: inline-flex;
+  margin: 10px;
+  letter-spacing: 0.2em;
+  background: #333;
+  padding: 5px 10px;
+  color: #fff;
+  border-radius: 5px;
+  transition: 0.5s;
+}
+
+.scrollContent span:hover {
+  background-color: #4caf50;
+  cursor: pointer;
+}
