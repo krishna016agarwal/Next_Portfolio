@@ -2,7 +2,7 @@
 import React,{useState,useEffect} from 'react'
 import style from "../css/about.module.css"
 import axios from 'axios'
-import styled,{keyframes,css} from 'styled-components'
+
 export default function page() {
   const [skills,setskills]=useState([])
   async function skillscalling(){
@@ -58,7 +58,37 @@ console.log(skills);
     ))}
   </div>
 </div>
+<div>
+<p className={`${style.sectionpart} text-[5vw]! gap-0 mb-4! text-white font-bold!  mt-2! lg:text-base/21 .  `}>
+        <span>E</span><span>d</span><span>u</span><span>c</span><span>t</span><span>i</span><span>o</span><span>n</span>
 
+
+        
+      </p>
+      <hr className={style.hr}></hr>
+      <div className={style.box}>
+      <div className={style.box1}>
+        <p className={style.eduname}>
+          Maharaja Agrasen Institute of Technology
+        </p>
+        <p className={style.eduyear}>2024-2028</p>
+        </div>
+        <hr className={style.hr}></hr>
+        <div className={style.box1}>
+        <p className={style.eduname}>
+          Lovely Public sr.sec school
+        </p>
+        <p className={style.eduyear}>2024</p>
+        </div>
+        <hr className={style.hr}></hr>
+        <div className={style.box1}>
+        <p className={style.eduname}>
+          St.John's sr.sec school
+        </p>
+        <p className={style.eduyear}>2022</p>
+        </div>
+      </div>
+      </div>
        </div>
       </>
     )
