@@ -3,11 +3,11 @@
  flex-direction: column;
  margin-top: 200px;
 padding: 0px 50px;
- height: 100%;
+ height: 50vh;
  width: 100%;
  .section{
     display: flex;
-   gap:20px;
+   gap:10px;
     .mainsub{
         display: flex;
         flex-direction: column;
@@ -29,7 +29,7 @@ padding: 0px 50px;
     justify-content: space-between;
     display: flex;
     flex-direction: column;
-  
+    
     width: 65%;
 }
 .outer{
@@ -107,7 +107,9 @@ padding: 0px 50px;
 }
 .eduyear{
   text-align: end;
-  color:#919191
+  color:#919191;
+  margin-top:auto;
+  margin-bottom: auto;
 }
 .eduname{
   font-weight: 500;
@@ -116,4 +118,104 @@ padding: 0px 50px;
 .hr{
   margin-left: 50px!important;
   margin-right: 75px!important;
+}
+.span{
+  color:#d1d5d8;
+  font-size: large;
+}
+.contact{
+  padding:0px 50px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+
+.infoLinks {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1.1rem; /* reduced vertical and horizontal gap */
+  padding: 4rem 2rem 1rem 2rem;
+  font-family: 'Fjalla One', sans-serif!important;
+  background: rgb(0, 0, 0);
+ margin: 0 30px 0 30px;
+}
+
+.infoLinks div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.3rem; /* reduced gap between title and links */
+  flex-wrap: nowrap;
+  line-height: 1; /* reduce vertical line height */
+}
+
+.infoLinks span {
+  color: #777;
+  font-weight: 700;
+  font-size: 3.2rem;
+  letter-spacing: -0.5px;
+  margin: 0; /* remove any margin */
+}
+
+.infoLinks a {
+  color: #777;
+  font-size: 1.3rem;
+  letter-spacing: -0.5px;
+  margin-top: 15px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  margin-right: 8px;
+}
+
+.infoLinks a:hover {
+  color: #fff;
+}
+.resume{
+
+  display: flex;
+  justify-content: center;
+ 
+}
+.resumebutton{
+  background-color: black;
+  border:1px solid white!important;
+
+ }
+ .resumebutton:hover{
+  background-color: white;
+  color: black !important;
+ }
+@media screen and (max-width:995px){
+  .infoLinks div{
+    flex-direction: column;
+    
+  }
+  .infoLinks{
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+  }
+  .infoLinks div .links{
+    display: flex;
+    flex-direction: row;
+  }
+}
+@media screen and (max-width:527px){
+  .infoLinks{
+    padding: 0;
+    margin: 10px 0;
+  }
+  .infoLinks div span{
+     font-size: 2rem;
+  }
+} 
+
+@media screen and (max-width:1165px){
+  .section{
+    display: block!important;
+    p{
+      line-height: -1px!important;
+    }
+  }
 }
