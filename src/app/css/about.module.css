@@ -1,41 +1,103 @@
-.div{
- display: flex;
- flex-direction: column;
- margin-top: 200px;
-padding: 0px 50px;
- height: 50vh;
- width: 100%;
- .section{
+.div {
+  display: flex;
+  flex-direction: column;
+  margin-top: 200px;
+  padding: 0px 50px;
+  
+  height: 60vh;
+  width: 100%;
+  .section {
     display: flex;
-   gap:10px;
-    .mainsub{
-        display: flex;
-        flex-direction: column;
+    gap: 10px;
+    .mainsub {
+      display: flex;
+      flex-direction: column;
     }
- }
-
+  }
 }
+.sectionpart{
+  font-size: 5.5vw;
+  
+  span{
+    vertical-align: baseline;
+     line-height: -100px !important;
+       margin: 0;
+  padding: 0;
+ 
+  /* display: inline-block; */
+  
+  }
+}
+.head {
+  font-weight: 700;
 
-.head{
-    font-weight: 500;
-    font-size: x-large;
-    padding: 0px 50px;
+  font-size: x-large;
+  padding: 0px 50px;
+}
+.abouttext {
+  font-size: x-large;
+
+  color: rgb(208, 208, 208);
+}
+.mainsub {
+  justify-content: space-between;
+  display: flex;
+
+  flex-direction: column;
+
+  width: 65%;
+}
+.btn {
+  padding: 24px 20px;
+}
+@media screen and (max-width: 1300px) {
+  .section {
+    flex-direction: column;
+  }
+  .div {
+    padding: 0px;
+  }
+  .mainsub {
+    width: 100%;
+    gap: 30px;
+  }
+  .head{
+    padding: 0;
+  }
+  .btn {
+    padding: 25px auto !important;
+    width: 100% !important;
+     white-space: nowrap; /* ✅ Keep text on one line */
+  }
+  .sectionpart{
+    padding: 0px !important;
+  }
+}
+@media screen and (max-width: 820px) {
+.div{
+  margin-top: 150px;
 }
 .abouttext{
-    font-size: x-large;
-    color:rgb(208, 208, 208)
+  margin-top: 10px;
 }
-.mainsub{
-    justify-content: space-between;
-    display: flex;
-    flex-direction: column;
-    
-    width: 65%;
 }
-.outer{
-    display: flex;
-    flex-direction: column;
-    gap:100px;
+
+@media screen and (max-width: 1025px) {
+.sectionpart{
+  font-size: 3rem !important;
+  line-height: -1px;
+  span{
+  
+}
+}
+}
+
+
+
+.outer {
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
 }
 .scroll {
   position: relative;
@@ -79,13 +141,17 @@ padding: 0px 50px;
 .scrollContent span {
   display: inline-flex;
   margin: 10px;
-  font-family:'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS'!;
+  font-family:
+    "Gill Sans",
+    "Gill Sans MT",
+    "Calibri",
+    "Trebuchet MS" !;
   letter-spacing: -1px;
   /* background: #333;
   padding: 5px 10px; */
   color: #aeaeae;
   font-size: xx-large;
-  font-weight:700;
+  font-weight: 700;
   margin-right: 75px;
   /* border-radius: 5px; */
   transition: 0.5s;
@@ -96,38 +162,38 @@ padding: 0px 50px;
   cursor: pointer;
 } */
 
-.sectionpart{
-  padding:0px 50px;
+.sectionpart {
+  padding: 0px 50px;
 }
 
-.box1{
+.box1 {
   display: flex;
-  padding:40px 70px;
+  padding: 40px 70px;
   justify-content: space-between;
 }
-.eduyear{
+.eduyear {
   text-align: end;
-  color:#919191;
-  margin-top:auto;
+  color: #919191;
+  margin-top: auto;
   margin-bottom: auto;
 }
-.eduname{
+.eduname {
   font-weight: 500;
   font-size: x-large;
 }
-.hr{
-  margin-left: 50px!important;
-  margin-right: 75px!important;
+.hr {
+  margin-left: 50px !important;
+  margin-right: 75px !important;
 }
-.span{
-  color:#d1d5d8;
+.span {
+  color: #d1d5d8;
   font-size: large;
 }
-.contact{
-  padding:0px 50px;
+.contact {
+  padding: 0px 50px;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
 
 .infoLinks {
   display: flex;
@@ -136,9 +202,9 @@ padding: 0px 50px;
   flex-wrap: wrap;
   gap: 1.1rem; /* reduced vertical and horizontal gap */
   padding: 4rem 2rem 1rem 2rem;
-  font-family: 'Fjalla One', sans-serif!important;
+  font-family: "Fjalla One", sans-serif !important;
   background: rgb(0, 0, 0);
- margin: 0 30px 0 30px;
+  margin: 0 30px 0 30px;
 }
 
 .infoLinks div {
@@ -171,51 +237,47 @@ padding: 0px 50px;
 .infoLinks a:hover {
   color: #fff;
 }
-.resume{
-
+.resume {
   display: flex;
   justify-content: center;
- 
 }
-.resumebutton{
+.resumebutton {
   background-color: black;
-  border:1px solid white!important;
-
- }
- .resumebutton:hover{
+  border: 1px solid white !important;
+}
+.resumebutton:hover {
   background-color: white;
   color: black !important;
- }
-@media screen and (max-width:995px){
-  .infoLinks div{
+}
+@media screen and (max-width: 995px) {
+  .infoLinks div {
     flex-direction: column;
-    
   }
-  .infoLinks{
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
+  .infoLinks {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
-  .infoLinks div .links{
+  .infoLinks div .links {
     display: flex;
     flex-direction: row;
   }
 }
-@media screen and (max-width:527px){
-  .infoLinks{
+@media screen and (max-width: 527px) {
+  .infoLinks {
     padding: 0;
     margin: 10px 0;
   }
-  .infoLinks div span{
-     font-size: 2rem;
+  .infoLinks div span {
+    font-size: 2rem;
   }
-} 
+}
 
-@media screen and (max-width:1165px){
-  .section{
-    display: block!important;
-    p{
-      line-height: -1px!important;
+@media screen and (max-width: 1165px) {
+  .section {
+    display: block !important;
+    p {
+      line-height: -10px !important;
     }
   }
 }

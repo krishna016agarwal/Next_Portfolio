@@ -20,7 +20,7 @@ export default function page() {
           <div className={style.head}>About Me</div>
           <div className={style.section}>
             <p
-              className={`${style.sectionpart} text-[5.5vw]! gap-0  text-white font-bold!  mt-2! lg:text-base/21 mr-10! bg-amber-300!.  `}
+              className={`${style.sectionpart}  gap-0  text-white font-bold!  mt-2! lg:text-base/21 mr-10! bg-amber-300!.  `}
             >
               <span>I</span>
               <span>n</span>
@@ -31,7 +31,7 @@ export default function page() {
               <span>t</span>
               <span>i</span>
               <span>v</span>
-              <span>e</span> 
+              <span className="mr-3!">e</span>
               <span> </span>
               <span>D</span>
               <span>e</span>
@@ -41,13 +41,13 @@ export default function page() {
               <span>o</span>
               <span>p</span>
               <span>e</span>
-              <span>r</span>
+              <span className="mr-3!">r</span>
               <span> </span>
               <span>f</span>
               <span>o</span>
-              <span>r</span>
+              <span className="mr-3!">r</span>
                <span> </span>
-              <span>a</span>
+              <span className="mr-3!">a</span>
                <span> </span>
               <span>D</span>
               <span>i</span>
@@ -55,14 +55,14 @@ export default function page() {
               <span>i</span>
               <span>t</span>
               <span>a</span>
-              <span>l</span>
+              <span className="mr-3!">l</span>
               <span> </span>
               <span className="text-gray-500 font-bold!">
                 <span>F</span>
                 <span>i</span>
                 <span>r</span>
                 <span>s</span>
-                <span>t</span>
+                <span className="mr-3!">t</span>
                 <span> </span>
                 <span>W</span>
                 <span>o</span>
@@ -79,7 +79,7 @@ export default function page() {
                 technologies.
               </div>
               
-                <button className="bg-white! text-black! rounded-full! w-70!    transition px-[20px]! py-[24px]! font-bold! hover:bg-gray-300! text-[1.3vw]!">
+                <button className={`${style.btn} bg-white! text-black! rounded-full! w-70!     transition  font-bold! hover:bg-gray-300!  `}>
                   Let’s Talk →
                 </button>
               

@@ -24,6 +24,11 @@ body {
   padding: 10px 50px;
 }
 
+@media screen and (max-width: 810px) {
+  body{
+    padding: 10px 10px;
+  }
+}
 /* Your font class */
 .fjalla {
   font-family: 'Fjalla One', sans-serif;
