@@ -17,9 +17,10 @@ export default function page() {
       <div >
         <Card></Card>
       </div>
-                  <div className={style.infoLinks}>
-              <div>
-                <span>SOCIALS</span>
+                <div className={`${style.infoLinks} mt-40! mb-2! `}>
+            <div>
+              <span>SOCIALS</span>
+              <div className={style.links}>
                 <a href="https://www.linkedin.com/feed/" target="_blank">
                   LINKEDIN
                 </a>
@@ -33,20 +34,28 @@ export default function page() {
                   GITHUB
                 </a>
               </div>
-              <div>
-                <span>WORK</span>
+            </div>
+            <div>
+              <span>WORK</span>
+              <div className={style.links}>
+                {" "}
                 <a href="/projects">ALL PROJECTS</a>
               </div>
-              <div>
-                <span>LET'S TALK</span>
+            </div>
+            <div>
+              <span>LET'S TALK</span>
+              <div className={style.links}>
                 <a href="krishna016agrawal@gmail.com">EMAIL</a>
                 <a href="tel:+9897481144">PHONE</a>
               </div>
-              <div>
-                <span>ABOUT</span>
+            </div>
+            <div>
+              <span>ABOUT</span>
+              <div className={style.links}>
                 <a href="/about">ABOUT US</a>
               </div>
             </div>
+          </div>
       </div>
     </>
   )

@@ -1,0 +1,134 @@
+.container {
+  background-color: #000000;
+  color: #dcdcdc;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around; /* Distributes space between main content and footer */
+  padding: 50px 20px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 60px; /* Increased gap for more vertical spacing like the image */
+  margin-bottom: 60px; /* Space before footer */
+}
+
+.contactSection {
+  /* No specific styles needed here as gap handles spacing */
+}
+
+.label {
+  font-size: 0.9rem; /* Adjust as needed */
+  color: #dcdcdc;/* Light gray */
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px; /* Space between label and value */
+}
+
+.value {
+  font-size: 2.8rem; /* Adjust for Fajlla One's appearance */
+  font-weight: 400; /* Fajlla One is often bold by default at 400 */
+  color: #dcdcdc;
+  text-transform: uppercase;
+  letter-spacing: 1px; /* Subtle spacing */
+  line-height: 1.2; /* For multi-line address */
+}
+.value:hover{
+    color: #7c7c7c; 
+    cursor: pointer;
+}
+@media screen and (max-width:400px){
+    .value{
+        font-size: x-large !important
+    }
+}
+
+/* Reduce font size slightly for the address if it feels too large */
+.contactSection:nth-child(2) .value { /* Targets the address section specifically */
+  font-size: 2.6rem; /* Slightly smaller for the two-liner */
+}
+
+
+.footer {
+  width: 100%;
+  max-width: 1000px; /* Limit width for better readability on large screens */
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  justify-content: center; /* Center the groups */
+  align-items: baseline; /* Align text baselines */
+  gap: 25px 50px; /* row-gap column-gap */
+  padding-top: 40px;
+  /* Optional: border-top: 1px solid #333; */ /* If you want a subtle separator */
+}
+
+.footerGroup {
+  display: flex;
+  align-items: baseline;
+  gap: 15px; /* Space between main text and subtexts in a group */
+}
+
+.footerMainText {
+  font-size: 2rem; /* Adjust to match image proportions */
+  font-weight: 400;
+  color: #dcdcdc; /* Slightly dimmer than main content value */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.footerSubText {
+  font-size: 0.85rem; /* Adjust to match image proportions */
+  color: #dcdcdc; /* Dimmer gray for subtext */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Responsive adjustments (optional, but good practice) */
+@media (max-width: 768px) {
+  .value {
+    font-size: 2.2rem;
+  }
+  .contactSection:nth-child(2) .value {
+    font-size: 2rem;
+  }
+  .footerMainText {
+    font-size: 1.6rem;
+  }
+  .footerSubText {
+    font-size: 0.75rem;
+  }
+  .mainContent {
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  .footer {
+    gap: 20px 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .value {
+    font-size: 1.8rem;
+  }
+  .contactSection:nth-child(2) .value {
+    font-size: 1.6rem;
+  }
+  .footerMainText {
+    font-size: 1.3rem;
+  }
+  .footerSubText {
+    font-size: 0.7rem;
+  }
+  .footerGroup {
+    flex-direction: column; /* Stack main and subtext vertically on very small screens */
+    align-items: center;
+    gap: 5px;
+  }
+  .footer {
+    gap: 15px; /* Reduce overall gap for stacked items */
+  }
+}

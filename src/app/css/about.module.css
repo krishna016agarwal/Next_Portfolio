@@ -3,8 +3,7 @@
   flex-direction: column;
   margin-top: 200px;
   padding: 0px 50px;
-  
-  height: 60vh;
+  height: 365px;
   width: 100%;
   .section {
     display: flex;
@@ -15,6 +14,56 @@
     }
   }
 }
+
+
+
+
+
+
+
+@media screen and (max-width: 1282px) {
+.div{
+  height: 415px;
+}
+}
+@media screen and (max-width: 825px) {
+.div{
+  height: 370px;
+}
+}
+@media screen and (max-width: 541px) {
+.div{
+  height: 62vh;
+}
+}
+@media screen and (max-width: 535px) {
+.div{
+  height: 60vh;
+}
+}
+@media screen and (max-width: 413px) {
+.div{
+  height: 54vh;
+}
+}
+@media screen and (max-width: 396px) {
+.div{
+  height: 65vh;
+}
+}
+@media screen and (max-width: 377px) {
+.div{
+  height: 580px;
+}
+}
+@media screen and (max-width: 345px) {
+.div{
+  height: 650px;
+}
+}
+
+
+
 .sectionpart{
   font-size: 5.5vw;
   
@@ -28,6 +77,7 @@
   
   }
 }
+
 
 .head {
   font-weight: 700;
@@ -93,7 +143,7 @@
 }
 
 
-
+/* 
 @media screen and (max-width: 425px) {
 .scroll{
   margin-top: 30px !important;
@@ -112,7 +162,7 @@
 .scroll{
   margin-top: -80px !important;
 }
-}
+} */
 
 
 
@@ -128,8 +178,9 @@
   position: relative;
   display: flex;
   width: 100%;
-  margin-top: 0px !important;
-  margin-bottom: 60px;
+
+  /* margin-top: 0px !important;
+  margin-bottom: 60px; */
   overflow: hidden;
 
   -webkit-mask-image: linear-gradient(
@@ -218,7 +269,6 @@
   font-size: x-large;
 }
 
-
 @media  screen and (max-width:800px) {
  .eduyear{
 margin-bottom: 0 !important;
@@ -228,9 +278,10 @@ z-index: 1;
 .name{
   position: absolute;
 }
-.edudiv{
+/* .edudiv{
   margin-top: -100px !important;
-}
+
+} */
 }
 @media  screen and (max-width:475px) {
  
@@ -238,12 +289,12 @@ z-index: 1;
   font-size: large !important;
 }
 }
-@media  screen and (max-width:410px) {
+/* @media  screen and (max-width:410px) {
  
 .scroll{
   margin-top: 100px !important;
 }
-}
+} */
 
 .span {
   color: #d1d5d8;
@@ -263,10 +314,11 @@ z-index: 1;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  
   flex-wrap: wrap;
   gap: 1.1rem; /* reduced vertical and horizontal gap */
   padding: 4rem 2rem 1rem 2rem;
-  font-family: "Fjalla One", sans-serif !important;
+ 
 
   margin: 0 30px 0 30px;
 }
@@ -274,7 +326,7 @@ z-index: 1;
 .infoLinks div {
   display: flex;
   flex-direction: row;
-  background-color: rgb(0, 0, 0);
+ 
   align-items: center;
   gap: 0.3rem; /* reduced gap between title and links */
   flex-wrap: nowrap;
@@ -283,7 +335,7 @@ z-index: 1;
 
 .infoLinks span {
   color: #777;
-  font-weight: 700;
+  
   font-size: 3.2rem;
   letter-spacing: -0.5px;
   margin: 0; /* remove any margin */
@@ -291,7 +343,7 @@ z-index: 1;
 
 .infoLinks a {
   color: #777;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   letter-spacing: -0.5px;
   margin-top: 15px;
   text-decoration: none;

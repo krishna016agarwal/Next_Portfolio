@@ -98,7 +98,7 @@ export default function page() {
               </div>
 
               <button
-                className={`${style.btn} bg-white! text-black! rounded-full! w-70!     transition  font-bold! hover:bg-gray-300!  `}
+                className={`${style.btn} bg-white! text-black! rounded-full! w-70!    text-[1.5rem]!  transition  font-bold! hover:bg-gray-300!  `}
               >
                 Let’s Talk →
               </button>
