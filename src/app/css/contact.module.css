@@ -42,9 +42,14 @@
     color: #7c7c7c; 
     cursor: pointer;
 }
-@media screen and (max-width:400px){
+@media screen and (max-width:420px){
     .value{
         font-size: x-large !important
+    }
+}
+@media screen and (max-width:360px){
+    .value{
+        font-size: large !important
     }
 }
 

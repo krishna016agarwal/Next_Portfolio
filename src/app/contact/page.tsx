@@ -1,35 +1,44 @@
 import style from "../css/about.module.css";
-import styles from "../css/contact.module.css"; // Adjust path if your css folder is elsewhere
+import styles from "../css/contact.module.css";
+import Head from 'next/head'; // Still useful for other meta tags
 
-// Initialize the Fajlla One font
+// Import the font function from next/font/google
+import { Fjalla_One } from 'next/font/google';
+
+// Initialize the font
+const fjallaOne = Fjalla_One({
+  weight: '400', // Fajalla One only has '400' weight
+  subsets: ['latin'], // Specify subsets you need
+  display: 'swap', // Optional: font-display behavior
+});
 
 export default function ContactPage() {
   return (
     <>
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+      {/* No need for the <link> tag in <Head> for this font if using next/font */}
+      <Head>
+        {/* You can keep other meta tags or links here */}
+        <title>Contact Us</title>
+      </Head>
 
       <div
         className={`${styles.container} mt-10!`}
         style={{
-          fontFamily: "Fjalla One",
-          
           color: "#b6dd9d",
         }}
       >
         <main className={styles.mainContent}>
           <section className={styles.contactSection}>
             <p className={styles.label}>SEND AN EMAIL</p>
-            <h2 className={styles.value}>KRISHNA016AGRAWAL@GMAIL.COM</h2>
+            {/* Apply the font's className to the h2 */}
+            <h2 className={`${styles.value} ${fjallaOne.className}`}>
+              KRISHNA016AGRAWAL@GMAIL.COM
+            </h2>
           </section>
 
           <section className={styles.contactSection}>
             <p className={styles.label}>DROP BY</p>
-            <h2 className={styles.value}>
+            <h2 className={`${styles.value} ${fjallaOne.className}`}>
               NEW DELHI
               <br />
               INDIA
@@ -38,50 +47,43 @@ export default function ContactPage() {
 
           <section className={styles.contactSection}>
             <p className={styles.label}>PHONE US</p>
-            <h2 className={styles.value}>+91 98 9748 1144</h2>
+            <h2 className={`${styles.value} ${fjallaOne.className}`}>
+              +91 98 9748 1144
+            </h2>
           </section>
         </main>
-        <div className={`${style.infoLinks} mt-[-120px]!`}>
+
+        <div className={`${style.infoLinks} mt-[-100px]!`}>
           <div>
-            <span>SOCIALS</span>
-            <div className={style.links}>
-              <a href="https://www.linkedin.com/feed/" target="_blank">
-                LINKEDIN
-              </a>
-              <a
-                href="https://www.instagram.com/krishnaagarwal016/?next=%2F"
-                target="_blank"
-              >
-                INSTAGRAM
-              </a>
-              <a href="https://github.com/krishna016agarwal" target="_blank">
-                GITHUB
-              </a>
+            <span className={fjallaOne.className}>SOCIALS</span>
+            <div className={`${style.links} ${fjallaOne.className}`}>
+              <a href="https://www.linkedin.com/feed/" target="_blank">LINKEDIN</a>
+              <a href="https://www.instagram.com/krishnaagarwal016/?next=%2F" target="_blank">INSTAGRAM</a>
+              <a href="https://github.com/krishna016agarwal" target="_blank">GITHUB</a>
             </div>
           </div>
+           {/* ... other sections, apply fjallaOne.className where needed ... */}
           <div>
-            <span>WORK</span>
-            <div className={style.links}>
-              {" "}
+            <span className={fjallaOne.className}>WORK</span>
+            <div className={`${style.links} ${fjallaOne.className}`}>
               <a href="/projects">ALL PROJECTS</a>
             </div>
           </div>
           <div>
-            <span>LET'S TALK</span>
-            <div className={style.links}>
-              <a href="krishna016agrawal@gmail.com">EMAIL</a>
-              <a href="tel:+9897481144">PHONE</a>
+            <span className={fjallaOne.className}>LET'S TALK</span>
+            <div className={`${style.links} ${fjallaOne.className}`}>
+              <a href="mailto:krishna016agrawal@gmail.com">EMAIL</a>
+              <a href="tel:+919897481144">PHONE</a>
             </div>
           </div>
           <div>
-            <span>ABOUT</span>
-            <div className={style.links}>
+            <span className={fjallaOne.className}>ABOUT</span>
+            <div className={`${style.links} ${fjallaOne.className}`}>
               <a href="/about">ABOUT US</a>
             </div>
           </div>
         </div>
       </div>
-      
     </>
   );
 }

@@ -143,26 +143,6 @@
 }
 
 
-/* 
-@media screen and (max-width: 425px) {
-.scroll{
-  margin-top: 30px !important;
-}
-}
-
-@media screen and (max-width: 360px) {
-.scroll{
-  margin-top: 80px !important;
-}
-}
-
-
-
-@media screen and (max-width: 810px) {
-.scroll{
-  margin-top: -80px !important;
-}
-} */
 
 
 
@@ -233,10 +213,6 @@
   transition: 0.5s;
 }
 
-/* .scrollContent span:hover {
-  background-color: #4caf50;
-  cursor: pointer;
-} */
 
 .sectionpart {
   padding: 0px 50px;
@@ -289,6 +265,12 @@ z-index: 1;
   font-size: large !important;
 }
 }
+@media  screen and (max-width:370px) {
+ 
+.name{
+  font-size: small !important;
+}
+}
 /* @media  screen and (max-width:410px) {
  
 .scroll{
@@ -308,25 +290,35 @@ z-index: 1;
   border-bottom: 2px solid white;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
-
+/* ---------------------------------------- */
+.cv{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .infoLinks {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  
+
   flex-wrap: wrap;
   gap: 1.1rem; /* reduced vertical and horizontal gap */
   padding: 4rem 2rem 1rem 2rem;
- 
 
+width:70vw;
   margin: 0 30px 0 30px;
 }
+@media screen and (max-width:600px) {
+  .infoLinks{
+    width: auto;
+  }
+}
+
 
 .infoLinks div {
   display: flex;
   flex-direction: row;
- 
+
   align-items: center;
   gap: 0.3rem; /* reduced gap between title and links */
   flex-wrap: nowrap;
@@ -335,7 +327,7 @@ z-index: 1;
 
 .infoLinks span {
   color: #777;
-  
+
   font-size: 3.2rem;
   letter-spacing: -0.5px;
   margin: 0; /* remove any margin */

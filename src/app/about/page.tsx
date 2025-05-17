@@ -2,6 +2,15 @@
 import React, { useState, useEffect } from "react";
 import style from "../css/about.module.css";
 import axios from "axios";
+import Head from "next/head"; // Still useful for other meta tags
+// Import the font function from next/font/google
+import { Fjalla_One } from "next/font/google";
+// Initialize the font
+const fjallaOne = Fjalla_One({
+  weight: "400", // Fajalla One only has '400' weight
+  subsets: ["latin"], // Specify subsets you need
+  display: "swap", // Optional: font-display behavior
+});
 
 export default function page() {
   const [skills, setskills] = useState([]);
@@ -14,22 +23,16 @@ export default function page() {
   }, []);
   console.log(skills);
 
-
-
-
-
-
   const [fileUrl, setFileUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUrl = async () => {
-      const res = await fetch('/api/resume/latest');
+      const res = await fetch("/api/resume/latest");
       const data = await res.json();
       setFileUrl(data.fileUrl);
     };
     fetchUrl();
   }, []);
-
 
   return (
     <>
@@ -141,7 +144,9 @@ export default function page() {
 
             <div className={`${style.box1} ${style.edu}`}>
               <p className={style.eduname}>
+                <p className={style.name}>
                 Lovely Public sr.sec school
+                </p>
                 <br></br>
                 <span className={style.span}>12th PCM</span>
               </p>
@@ -149,10 +154,10 @@ export default function page() {
             </div>
             {/* <hr className={style.hr}></hr> */}
             <div className={`${style.box1} ${style.edu}`}>
-              <p className={style.eduname}>
-                St.John's s
-                {`$r.sec school
- ${style.edu}`}{" "}
+            <p className={style.eduname}>
+              <p className={style.name}>
+                St. John's sr.sec school
+                </p>
                 <br></br>
                 <span className={style.span}>10th</span>
               </p>
@@ -163,17 +168,17 @@ export default function page() {
         <div className={style.cv}>
           <div className={style.resume}>
             <button
-                onClick={() => fileUrl && window.open(fileUrl, '_blank')}
+              onClick={() => fileUrl && window.open(fileUrl, "_blank")}
               className={`  rounded-full!    transition px-[54px]! py-[24px]! font-bold!  text-[1.3rem]! ${style.resumebutton}`}
             >
               Resume
             </button>
           </div>
 
-          <div className={style.infoLinks}>
+          <div className={`${style.infoLinks} `}>
             <div>
-              <span>SOCIALS</span>
-              <div className={style.links}>
+              <span className={fjallaOne.className}>SOCIALS</span>
+              <div className={`${style.links} ${fjallaOne.className}`}>
                 <a href="https://www.linkedin.com/feed/" target="_blank">
                   LINKEDIN
                 </a>
@@ -188,23 +193,23 @@ export default function page() {
                 </a>
               </div>
             </div>
+            {/* ... other sections, apply fjallaOne.className where needed ... */}
             <div>
-              <span>WORK</span>
-              <div className={style.links}>
-                {" "}
+              <span className={fjallaOne.className}>WORK</span>
+              <div className={`${style.links} ${fjallaOne.className}`}>
                 <a href="/projects">ALL PROJECTS</a>
               </div>
             </div>
             <div>
-              <span>LET'S TALK</span>
-              <div className={style.links}>
-                <a href="krishna016agrawal@gmail.com">EMAIL</a>
-                <a href="tel:+9897481144">PHONE</a>
+              <span className={fjallaOne.className}>LET'S TALK</span>
+              <div className={`${style.links} ${fjallaOne.className}`}>
+                <a href="mailto:krishna016agrawal@gmail.com">EMAIL</a>
+                <a href="tel:+919897481144">PHONE</a>
               </div>
             </div>
             <div>
-              <span>ABOUT</span>
-              <div className={style.links}>
+              <span className={fjallaOne.className}>ABOUT</span>
+              <div className={`${style.links} ${fjallaOne.className}`}>
                 <a href="/about">ABOUT US</a>
               </div>
             </div>
