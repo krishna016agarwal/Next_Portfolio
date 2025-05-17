@@ -13,6 +13,24 @@ export default function page() {
     skillscalling();
   }, []);
   console.log(skills);
+
+
+
+
+
+
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUrl = async () => {
+      const res = await fetch('/api/resume/latest');
+      const data = await res.json();
+      setFileUrl(data.fileUrl);
+    };
+    fetchUrl();
+  }, []);
+
+
   return (
     <>
       <div className={style.outer}>
@@ -145,6 +163,7 @@ export default function page() {
         <div className={style.cv}>
           <div className={style.resume}>
             <button
+                onClick={() => fileUrl && window.open(fileUrl, '_blank')}
               className={`  rounded-full!    transition px-[54px]! py-[24px]! font-bold!  text-[1.3rem]! ${style.resumebutton}`}
             >
               Resume
