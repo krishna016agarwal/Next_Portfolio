@@ -46,9 +46,9 @@ export default function page() {
               <span>f</span>
               <span>o</span>
               <span className="mr-3!">r</span>
-               <span> </span>
+              <span> </span>
               <span className="mr-3!">a</span>
-               <span> </span>
+              <span> </span>
               <span>D</span>
               <span>i</span>
               <span>g</span>
@@ -78,11 +78,12 @@ export default function page() {
                 interactive, user-friendly digital experiences using modern web
                 technologies.
               </div>
-              
-                <button className={`${style.btn} bg-white! text-black! rounded-full! w-70!     transition  font-bold! hover:bg-gray-300!  `}>
-                  Let’s Talk →
-                </button>
-              
+
+              <button
+                className={`${style.btn} bg-white! text-black! rounded-full! w-70!     transition  font-bold! hover:bg-gray-300!  `}
+              >
+                Let’s Talk →
+              </button>
             </div>
           </div>
         </div>
@@ -94,9 +95,9 @@ export default function page() {
             ))}
           </div>
         </div>
-        <div>
+        <div className={style.edudiv}>
           <p
-            className={`${style.sectionpart} text-[5vw]! gap-0 mb-4! text-white font-bold!  mt-2! lg:text-base/21 .  `}
+            className={`${style.education} ${style.edu} gap-0 mb-4! text-white font-bold!  mt-2! lg:text-base/21 .  `}
           >
             <span>E</span>
             <span>d</span>
@@ -107,18 +108,20 @@ export default function page() {
             <span>o</span>
             <span>n</span>
           </p>
-          <hr className={style.hr}></hr>
+
           <div className={style.box}>
-            <div className={style.box1}>
+            <div className={`${style.box1} ${style.edu}`}>
               <p className={style.eduname}>
-                Maharaja Agrasen Institute of Technology
+                <p className={style.name}>
+                  Maharaja Agrasen Institute of Technology
+                </p>
                 <br></br>
                 <span className={style.span}>B.tech (CSE)</span>
               </p>
               <p className={style.eduyear}>2024-2028</p>
             </div>
-            <hr className={style.hr}></hr>
-            <div className={style.box1}>
+
+            <div className={`${style.box1} ${style.edu}`}>
               <p className={style.eduname}>
                 Lovely Public sr.sec school
                 <br></br>
@@ -126,10 +129,12 @@ export default function page() {
               </p>
               <p className={style.eduyear}>2024</p>
             </div>
-            <hr className={style.hr}></hr>
-            <div className={style.box1}>
+            {/* <hr className={style.hr}></hr> */}
+            <div className={`${style.box1} ${style.edu}`}>
               <p className={style.eduname}>
-                St.John's sr.sec school
+                St.John's s
+                {`$r.sec school
+ ${style.edu}`}{" "}
                 <br></br>
                 <span className={style.span}>10th</span>
               </p>
@@ -139,7 +144,9 @@ export default function page() {
         </div>
         <div className={style.cv}>
           <div className={style.resume}>
-            <button className={`  rounded-full! font-semibold    transition px-[54px]! py-[24px]! font-bold!  text-[1.3vw]! ${style.resumebutton}`}>
+            <button
+              className={`  rounded-full!    transition px-[54px]! py-[24px]! font-bold!  text-[1.3rem]! ${style.resumebutton}`}
+            >
               Resume
             </button>
           </div>
