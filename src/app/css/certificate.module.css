@@ -1,88 +1,131 @@
+/* --- GRID CONTAINER STYLES --- */
+.certificateGridContainer {
+  display: grid;
+  /* Default: 2 columns */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem; /* Corresponds to Tailwind's gap-8 from your original example */
+  width: 100%; /* Ensure the grid container takes up available width */
+}
+
+/* Responsive Grid Adjustments */
+/* When screen width is 800px or less, switch to 1 column */
+@media screen and (max-width: 800px) {
+  .certificateGridContainer {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem; /* Optionally adjust gap for smaller screens */
+  }
+  .card{
+    height: 350px;;
+  }
+}
+/* --- END GRID CONTAINER STYLES --- */
+
+
+/* --- CARD STYLES --- */
 .card {
-    background-color: rgb(25, 25, 25);
-    padding: 7px;
-    color: rgb(215, 215, 215);
-    transition: all 0.3s ease-in;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  /* On hover card background changes */
-  .card:hover {
-    background-color: #b8afd4;
-    color: black;
-  }
-  
-  /* Shared section styles */
-  .details {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 1rem;
-    transition: transform .5s ease, opacity .1s ease;
-  }
-  
-  
-  .detailshover {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 1rem;
-    transition: transform .5s ease, opacity .1s ease;
-  }
-  
-  /* Default state */
-  .details {
-    transform: translateY(0);
-    opacity: 1;
-    z-index: 2;
-  
-    
-  }
-  
-  .detailshover {
-    transform: translateY(70px);
-    opacity: 0;
-    z-index: 1;
-  }
-  
-  /* Hover state changes */
-  .card:hover .details {
-    transform: translateY(-70px);
-    opacity: 0;
-    z-index: 1;
-  }
-  
-  .card:hover .detailshover {
-    transform: translateY(0);
-    opacity: 1;
-    z-index: 2;
-  }
-  
-  /* Tech styling */
-  .tech {
-    margin-right: 5px;
-    text-transform: uppercase;
-  }
-  
-  /* Button styling */
-  .button {
-    cursor: pointer;
-  
-    
-   
-    border: none;
-    
-  }
-  
-  
-  
-  .buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-top: 1rem;
-  }
-  
+  background-color: rgb(25, 25, 25);
+  /* padding: 7px; /* Original value */
+  padding: 0.75rem; /* Tailwind p-3 (12px), close to 7px. Adjust if 7px is strict. */
+  color: rgb(215, 215, 215);
+  transition: all 0.3s ease-in;
+  position: relative;   /* For absolute positioned children and overflow effects */
+  overflow: hidden;     /* Crucial for rounded corners on children and hover animations */
+  width: 100%;          /* Card will take the full width of its grid cell */
+  border-radius: 1rem;  /* Corresponds to Tailwind's rounded-2xl */
+  display: flex;
+  flex-direction: column; /* To stack image and text content vertically */
+  /* Height is determined by content by default. 
+     If all cards need equal height, you can use 'align-items: stretch;' (default for grid items)
+     or 'grid-auto-rows: 1fr;' on .certificateGridContainer. */
+}
+
+/* On hover card background changes */
+.card:hover {
+  background-color: #b8afd4;
+  color: black;
+}
+
+/* Image container styling */
+.imageContainer {
+  position: relative; /* For potential future absolutely positioned elements inside */
+  width: 100%;
+  height: 250px;      /* Define a fixed height for the image area. Adjust as needed.
+                         Alternatively, for responsive aspect ratio: aspect-ratio: 16 / 9; */
+  background-color: #1f1f1f; /* A slightly different background for the image area itself */
+  border-radius: 0.5rem; /* Corresponds to Tailwind's rounded-lg */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;     /* Ensures the image respects the container's border-radius */
+  /* margin-bottom: 0.5rem; /* Optional: if you want space between image and text overlay start point */
+}
+
+.image {
+  display: block; /* Removes extra space sometimes left below inline images */
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Ensures the entire image is visible and maintains its aspect ratio */
+}
+
+
+/* --- TEXT OVERLAY STYLES (Details & Hover Details) --- */
+/* These styles are preserved from your original certificate.module.css */
+/* to maintain the hover animation and appearance. */
+
+.details, .detailshover {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem; /* Padding within the text overlay */
+  transition: transform 0.5s ease, opacity 0.1s ease;
+  /* Note: Background color for these sections will be inherited from .card.
+     If you want them to have a static background (e.g., always dark), 
+     set 'background-color' explicitly here. */
+}
+
+/* Default state for .details (visible) */
+.details {
+  transform: translateY(0);
+  opacity: 1;
+  z-index: 2;
+ 
+}
+
+/* Default state for .detailshover (hidden, below) */
+.detailshover {
+  transform: translateY(70px); /* Pushed down out of normal view */
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Hover state changes: .details slides up and fades, .detailshover slides in */
+.card:hover .details {
+  transform: translateY(-70px); /* Moves up */
+  opacity: 0;
+  z-index: 1;
+}
+
+.card:hover .detailshover {
+  transform: translateY(0); /* Slides into view */
+  opacity: 1;
+  z-index: 2;
+}
+
+/* --- Unused styles from original, kept for completeness if needed later --- */
+.tech {
+  margin-right: 5px;
+  text-transform: uppercase;
+}
+
+.button {
+  cursor: pointer;
+  border: none;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 1rem;
+}

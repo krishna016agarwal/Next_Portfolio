@@ -1,31 +1,34 @@
-import mongoose,{Schema,Document} from "mongoose"
+import mongoose, { Schema, Document } from "mongoose";
 
-export interface Certification extends Document{
-    name:string;
-    image:string;
-   
-    certificationLink:string
-
+export interface Certification extends Document {
+  name: string;
+  image: string;
+  instituteName: string;
 }
 
-const certificationSchema:Schema<Certification> = new mongoose.Schema({
+const certificationSchema: Schema<Certification> = new mongoose.Schema(
+  {
     name: {
-        type:String,
-        required:true
+      type: String,
+      required: true,
     },
-    image:{
-        type:String,
-        required:true  
+    image: {
+      type: String,
+      required: true,
     },
-    
-  certificationLink:{
-    type:String,
-       
-  } 
-  },{
-    timestamps:true
-  });
 
-  const CertificationModel = mongoose.models.Certification ||mongoose.model<Certification>('Certification', certificationSchema);
+    instituteName: {
+      type: String,
+      required:true
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-  export default CertificationModel;
+const CertificationModel =
+  mongoose.models.Certification ||
+  mongoose.model<Certification>("Certification", certificationSchema);
+
+export default CertificationModel;
