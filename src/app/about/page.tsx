@@ -1,5 +1,5 @@
 "use client";
-import Footer from "../components/footer"
+import Footer from "../components/footer";
 import React, { useState, useEffect } from "react";
 import style from "../css/about.module.css";
 import axios from "axios";
@@ -100,12 +100,13 @@ export default function page() {
                 interactive, user-friendly digital experiences using modern web
                 technologies.
               </div>
-
-              <button
-                className={`${style.btn} bg-white! text-black! rounded-full! w-70!    text-[1.5rem]!  transition  font-bold! hover:bg-gray-300!  `}
-              >
-                Let’s Talk →
-              </button>
+              <a href="/contact">
+                <button
+                  className={`${style.btn} bg-white! text-black! rounded-full! w-70!    text-[1.5rem]!  transition  font-bold! hover:bg-gray-300!  `}
+                >
+                  Let’s Talk →
+                </button>
+              </a>
             </div>
           </div>
         </div>
@@ -145,9 +146,7 @@ export default function page() {
 
             <div className={`${style.box1} ${style.edu}`}>
               <p className={style.eduname}>
-                <p className={style.name}>
-                Lovely Public sr.sec school
-                </p>
+                <p className={style.name}>Lovely Public sr.sec school</p>
                 <br></br>
                 <span className={style.span}>12th PCM</span>
               </p>
@@ -155,10 +154,8 @@ export default function page() {
             </div>
             {/* <hr className={style.hr}></hr> */}
             <div className={`${style.box1} ${style.edu}`}>
-            <p className={style.eduname}>
-              <p className={style.name}>
-                St. John's sr.sec school
-                </p>
+              <p className={style.eduname}>
+                <p className={style.name}>St. John's sr.sec school</p>
                 <br></br>
                 <span className={style.span}>10th</span>
               </p>
@@ -176,7 +173,7 @@ export default function page() {
             </button>
           </div>
 
-         <Footer></Footer>
+          <Footer></Footer>
         </div>
       </div>
     </>
