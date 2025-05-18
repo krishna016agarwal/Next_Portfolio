@@ -10,7 +10,9 @@ export default function Page() {
     projectLink: "",
     technologiesUsed: [] as string[],
   });
-
+  const [passwordInput, setPasswordInput] = useState("");
+  const [authenticated, setAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [techInput, setTechInput] = useState("");
   const [projectList, setProjectList] = useState([]);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
@@ -23,6 +25,8 @@ export default function Page() {
   });
   const [updateTechInput, setUpdateTechInput] = useState("");
 
+
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
     if (name === "image" && files) {
@@ -73,6 +77,29 @@ export default function Page() {
     setProjectList(res.data.data);
   };
 
+
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await axios.post("/api/admin", {
+        password: passwordInput,
+      });
+      if (res.data.success) {
+        setAuthenticated(true);
+        fetchProjects();
+      } else {
+        alert("Incorrect password. Access denied.");
+      }
+    } catch (err) {
+      alert("Error validating password");
+      console.error(err);
+    }
+    setPasswordInput("");
+    setLoading(false);
+  };
+
   const handleDelete = async (id: string) => {
     try {
       await axios.delete("/api/projects", { data: { id } });
@@ -92,36 +119,31 @@ export default function Page() {
     if (updateData.technologiesUsed.length > 0)
       updates.technologiesUsed = updateData.technologiesUsed;
 
-
     const formData = new FormData();
-    
-    
+
     formData.append("id", currentProjectId!);
-    
+
     for (const key in updates) {
       const value = updates[key];
       if (value !== null && value !== undefined) {
         if (key === "technologiesUsed") {
           console.log(value);
-          
+
           formData.append(key, value);
         } else {
           formData.append(key, value);
         }
       }
     }
-    
+
     // // Debug FormData content
     // for (const [key, value] of formData.entries()) {
     //   console.log(`${key}:`, value);
     // }
-    
-
 
     try {
       await axios.patch("/api/projects", formData);
-     
-      
+
       alert("✅ Project updated successfully!");
       setIsUpdateOpen(false);
       setUpdateData({
@@ -151,8 +173,6 @@ export default function Page() {
           .map((tech) => tech.trim())
           .filter(Boolean),
       });
-      
-      
     } else {
       setUpdateData({ ...updateData, [name]: value });
     }
@@ -162,6 +182,37 @@ export default function Page() {
     fetchProjects();
   }, []);
 
+  if (!authenticated) {
+    return (
+      <div className="!fixed !inset-0 !bg-black !bg-opacity-80 !flex !items-center !justify-center !z-50">
+        <form
+          onSubmit={handlePasswordSubmit}
+          className="!bg-gray-900 !p-6 !rounded-lg !max-w-sm !w-full !space-y-4 !text-white"
+        >
+          <h2 className="!text-xl !font-bold !mb-4 !text-yellow-400 !text-center">
+            ONLY ADMIN CAN ACCESS
+          </h2>
+          <input
+            type="password"
+            placeholder="Enter admin password"
+            value={passwordInput}
+            onChange={(e) => setPasswordInput(e.target.value)}
+            className="!w-full !p-3 !rounded !bg-gray-700 !text-white"
+            required
+            autoFocus
+            disabled={loading}
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className="!w-full !bg-yellow-400 !text-black !font-bold !py-3 !rounded !hover:bg-yellow-500"
+          >
+            {loading ? "Checking..." : "Submit"}
+          </button>
+        </form>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black px-4! mt-16! py-12! flex flex-col items-center">
       <form
@@ -173,7 +224,9 @@ export default function Page() {
         </h2>
 
         <div>
-          <label className="text-white font-semibold block mb-2!">Project Name</label>
+          <label className="text-white font-semibold block mb-2!">
+            Project Name
+          </label>
           <input
             type="text"
             name="name"
@@ -186,7 +239,9 @@ export default function Page() {
         </div>
 
         <div>
-          <label className="text-white font-semibold block mb-4!">Project Image</label>
+          <label className="text-white font-semibold block mb-4!">
+            Project Image
+          </label>
           <input
             type="file"
             name="image"
@@ -198,7 +253,9 @@ export default function Page() {
         </div>
 
         <div>
-          <label className="text-white font-semibold block mb-4!">GitHub Link</label>
+          <label className="text-white font-semibold block mb-4!">
+            GitHub Link
+          </label>
           <input
             type="text"
             name="github"
@@ -211,7 +268,9 @@ export default function Page() {
         </div>
 
         <div>
-          <label className="text-white font-semibold block mb-4!">Website Link</label>
+          <label className="text-white font-semibold block mb-4!">
+            Website Link
+          </label>
           <input
             type="text"
             name="projectLink"
@@ -223,7 +282,9 @@ export default function Page() {
         </div>
 
         <div>
-          <label className="text-white font-semibold block mb-4!">Technologies Used</label>
+          <label className="text-white font-semibold block mb-4!">
+            Technologies Used
+          </label>
           <input
             type="text"
             name="technologiesUsed"
@@ -244,7 +305,9 @@ export default function Page() {
       </form>
 
       <div className="w-full! max-w-xl! bg-gray-800 p-6! rounded-2xl! mt-6! shadow-xl! space-y-4!">
-        <h3 className="text-2xl text-white font-semibold mb-4!">📋 Submitted Projects</h3>
+        <h3 className="text-2xl text-white font-semibold mb-4!">
+          📋 Submitted Projects
+        </h3>
         {projectList.length === 0 ? (
           <p className="text-gray-300">No projects yet.</p>
         ) : (

@@ -3,24 +3,18 @@ import React, { useState } from "react";
 import axios from "axios";
 
 export default function AdminPage() {
-  // State for admin auth
   const [passwordInput, setPasswordInput] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // State for certificate form
   const [certData, setCertData] = useState({
     name: "",
     instituteName: "",
     image: null as File | null,
   });
 
-  // State for all certificates
-  const [certificates, setCertificates] = useState<
-    { _id: string; name: string; instituteName: string; image: string }[]
-  >([]);
+  const [certificates, setCertificates] = useState< { _id: string; name: string; instituteName: string; image: string }[]>([]);
 
-  // Edit modal state
   const [showEditModal, setShowEditModal] = useState(false);
   const [editData, setEditData] = useState({
     _id: "",
@@ -29,7 +23,6 @@ export default function AdminPage() {
     image: null as File | null,
   });
 
-  // Fetch certificates after auth
   const fetchCertificates = async () => {
     try {
       const res = await axios.get("/api/certificates");
@@ -40,12 +33,12 @@ export default function AdminPage() {
     }
   };
 
-  // Handle admin password submit
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      const res = await axios.post("/api/admin/check-password", {
+      const res = await axios.post("/api/admin", {
         password: passwordInput,
       });
       if (res.data.success) {
@@ -62,7 +55,6 @@ export default function AdminPage() {
     setLoading(false);
   };
 
-  // Handle input change for add and edit forms
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     isEdit = false
@@ -81,7 +73,6 @@ export default function AdminPage() {
     }
   };
 
-  // Submit new certificate
   const handleAddCertificate = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
@@ -99,7 +90,6 @@ export default function AdminPage() {
     }
   };
 
-  // Delete certificate
   const handleDelete = async (_id: string) => {
     try {
       await axios.delete("/api/certificates", { data: { _id } });
@@ -110,17 +100,20 @@ export default function AdminPage() {
     }
   };
 
-  // Open edit modal
   const openEditModal = (cert: {
     _id: string;
     name: string;
     instituteName: string;
   }) => {
-    setEditData({ _id: cert._id, name: cert.name, instituteName: cert.instituteName, image: null });
+    setEditData({
+      _id: cert._id,
+      name: cert.name,
+      instituteName: cert.instituteName,
+      image: null,
+    });
     setShowEditModal(true);
   };
 
-  // Update certificate
   const handleUpdateCertificate = async () => {
     const formData = new FormData();
     formData.append("_id", editData._id);
@@ -138,15 +131,14 @@ export default function AdminPage() {
     }
   };
 
-  // If not authenticated, show password modal
   if (!authenticated) {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+      <div className="!fixed !inset-0 !bg-black !bg-opacity-80 !flex !items-center !justify-center !z-50">
         <form
           onSubmit={handlePasswordSubmit}
-          className="bg-gray-900 p-6 rounded-lg max-w-sm w-full space-y-4 text-white"
+          className="!bg-gray-900 !p-6 !rounded-lg !max-w-sm !w-full !space-y-4 !text-white"
         >
-          <h2 className="text-xl font-bold mb-4 text-yellow-400 text-center">
+          <h2 className="!text-xl !font-bold !mb-4 !text-yellow-400 !text-center">
             ONLY ADMIN CAN ACCESS
           </h2>
           <input
@@ -154,7 +146,7 @@ export default function AdminPage() {
             placeholder="Enter admin password"
             value={passwordInput}
             onChange={(e) => setPasswordInput(e.target.value)}
-            className="w-full p-3 rounded bg-gray-700 text-white"
+            className="!w-full !p-3 !rounded !bg-gray-700 !text-white"
             required
             autoFocus
             disabled={loading}
@@ -162,7 +154,7 @@ export default function AdminPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-yellow-400 text-black font-bold py-3 rounded hover:bg-yellow-500"
+            className="!w-full !bg-yellow-400 !text-black !font-bold !py-3 !rounded !hover:bg-yellow-500"
           >
             {loading ? "Checking..." : "Submit"}
           </button>
@@ -171,22 +163,22 @@ export default function AdminPage() {
     );
   }
 
-  // Authenticated content
   return (
-    <div className="min-h-screen bg-black text-white p-8">
-      {/* Add certificate form */}
+    <div className="!min-h-screen !bg-black !text-white !p-8">
       <form
         onSubmit={handleAddCertificate}
-        className="bg-gray-900 p-6 rounded-xl max-w-md mx-auto space-y-4"
+        className="!bg-gray-900 !p-6 !rounded-xl !max-w-md !mx-auto !space-y-4"
       >
-        <h2 className="text-2xl font-bold text-yellow-400">Add Certificate</h2>
+        <h2 className="!text-2xl !font-bold !text-yellow-400">
+          Add Certificate
+        </h2>
         <input
           type="text"
           name="name"
           value={certData.name}
           onChange={handleInputChange}
           placeholder="Certificate Name"
-          className="w-full p-3 rounded bg-gray-700"
+          className="!w-full !p-3 !rounded !bg-gray-700"
           required
         />
         <input
@@ -195,7 +187,7 @@ export default function AdminPage() {
           value={certData.instituteName}
           onChange={handleInputChange}
           placeholder="Institute Name"
-          className="w-full p-3 rounded bg-gray-700"
+          className="!w-full !p-3 !rounded !bg-gray-700"
           required
         />
         <input
@@ -203,40 +195,43 @@ export default function AdminPage() {
           name="image"
           accept="image/*"
           onChange={handleInputChange}
-          className="w-full file:bg-yellow-500 file:text-white file:p-2 file:rounded bg-gray-700"
+          className="!w-full !file:bg-yellow-500 !file:text-white !file:p-2 !file:rounded !bg-gray-700"
           required
         />
         <button
           type="submit"
-          className="w-full bg-yellow-400 text-black font-bold py-3 rounded hover:bg-yellow-500"
+          className="!w-full !bg-yellow-400 !text-black !font-bold !py-3 !rounded !hover:bg-yellow-500"
         >
           Submit
         </button>
       </form>
 
-      {/* Certificates list */}
-      <div className="mt-10 max-w-3xl mx-auto space-y-6">
-        <h3 className="text-xl font-semibold">Certificates</h3>
+      <div className="!mt-10 !max-w-3xl !mx-auto !space-y-6">
+        <h3 className="!text-xl !font-semibold">Certificates</h3>
         {certificates.map((cert) => (
           <div
             key={cert._id}
-            className="bg-gray-800 p-4 rounded-lg flex justify-between items-center"
+            className="!bg-gray-800 !p-4 !rounded-lg !flex !justify-between !items-center"
           >
             <div>
-              <p className="font-medium">{cert.name}</p>
-              <p className="font-medium">{cert.instituteName}</p>
-              <img src={cert.image} alt={cert.name} className="h-24 mt-2 rounded-lg" />
+              <p className="!font-medium">{cert.name}</p>
+              <p className="!font-medium">{cert.instituteName}</p>
+              <img
+                src={cert.image}
+                alt={cert.name}
+                className="!h-24 !mt-2 !rounded-lg"
+              />
             </div>
-            <div className="space-x-2">
+            <div className="!space-x-2">
               <button
                 onClick={() => handleDelete(cert._id)}
-                className="bg-red-600 px-3 py-1 rounded text-sm hover:bg-red-700"
+                className="!bg-red-600 !px-3 !py-1 !rounded !text-sm !hover:bg-red-700"
               >
                 Delete
               </button>
               <button
                 onClick={() => openEditModal(cert)}
-                className="bg-blue-600 px-3 py-1 rounded text-sm hover:bg-blue-700"
+                className="!bg-blue-600 !px-3 !py-1 !rounded !text-sm !hover:bg-blue-700"
               >
                 Update
               </button>
@@ -245,17 +240,16 @@ export default function AdminPage() {
         ))}
       </div>
 
-      {/* Edit modal */}
       {showEditModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg max-w-md w-full text-black space-y-4">
-            <h2 className="text-xl font-semibold">Update Certificate</h2>
+        <div className="!fixed !inset-0 !bg-black !bg-opacity-50 !flex !items-center !justify-center !z-50">
+          <div className="!bg-white !p-6 !rounded-lg !max-w-md !w-full !text-black !space-y-4">
+            <h2 className="!text-xl !font-semibold">Update Certificate</h2>
             <input
               type="text"
               name="name"
               value={editData.name}
               onChange={(e) => handleInputChange(e, true)}
-              className="w-full p-2 border rounded"
+              className="!w-full !p-2 !border !rounded"
               placeholder="Certificate Name"
             />
             <input
@@ -263,7 +257,7 @@ export default function AdminPage() {
               name="instituteName"
               value={editData.instituteName}
               onChange={(e) => handleInputChange(e, true)}
-              className="w-full p-2 border rounded"
+              className="!w-full !p-2 !border !rounded"
               placeholder="Institute Name"
             />
             <input
@@ -271,18 +265,18 @@ export default function AdminPage() {
               name="image"
               accept="image/*"
               onChange={(e) => handleInputChange(e, true)}
-              className="w-full p-2 border rounded"
+              className="!w-full !p-2 !border !rounded"
             />
-            <div className="flex justify-end space-x-4">
+            <div className="!flex !justify-end !space-x-4">
               <button
                 onClick={() => setShowEditModal(false)}
-                className="bg-gray-400 px-4 py-2 rounded hover:bg-gray-500"
+                className="!bg-gray-400 !px-4 !py-2 !rounded !hover:bg-gray-500"
               >
                 Cancel
               </button>
               <button
                 onClick={handleUpdateCertificate}
-                className="bg-yellow-400 px-4 py-2 rounded hover:bg-yellow-500"
+                className="!bg-yellow-400 !px-4 !py-2 !rounded !hover:bg-yellow-500"
               >
                 Update
               </button>
