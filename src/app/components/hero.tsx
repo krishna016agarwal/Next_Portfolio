@@ -1,4 +1,4 @@
-import styles from "../css/hero.module.css"; // This path seems correct based on your structure
+import style from "../css/hero.module.css"; // This path seems correct based on your structure
 import { Fjalla_One } from "next/font/google";
 
 const fjallaOne = Fjalla_One({
@@ -43,12 +43,12 @@ const heroLinesData: HeroLineData[] = [
 
 export default function Hero() {
   return (
-    <section className="md:mt-20! flex justify-items-start flex-col lg:py-[72px]! lg:px-[80px]!  relative   ">
-      <h2 className="text-white text-xl mb-6 text-[2vw]! font-bold!">
+    <section className={` ${style.section}  flex justify-items-start flex-col lg:py-[72px]! lg:px-[80px]!  relative   `}>
+      <h2 className="text-white text-xl mb-6 text-[1.8rem]! font-bold!">
         Hello! I’m Krishna.
       </h2>
 
-      <p className="text-[6vw]! gap-0  text-white font-bold!  mt-2! lg:text-base/21 ...! ">
+      <p className={`${style.head} text-[5.8em]! gap-0  text-white font-bold!  mt-2! text-base/21  `}>
         <span>
           <span>W</span>
           <span>e</span>
@@ -128,21 +128,21 @@ export default function Hero() {
         </span>
       </p>
 
-      <div className="mt-23! flex justify-between ">
+      <div className={`${style.box} mt-23! flex justify-between `}>
         <a href="/contact">
-          <button className="bg-white! text-black! rounded-full! transition px-[54px]! py-[24px]! font-bold! hover:bg-gray-300! text-[1.3vw]!">
+          <button className={` ${style.a} bg-white! text-black! rounded-full! transition px-[54px]! py-[24px]! font-bold! hover:bg-gray-300! text-[1.3vw]!`}>
             Let’s Talk →
           </button>
         </a>
-        <p className="text-gray-300 mt-10 max-w-xl leading-relaxed text-lg">
+        <p className={`  ${style.text} text-gray-300 mt-10 max-w-xl leading-relaxed text-lg`}>
           A tech enthusiast transforming ideas into intuitive, functional web
           applications.
         </p>
       </div>
 
-      <section className={styles.heroTextSection}>
+      <section className={style.heroTextSection}>
         {heroLinesData.map((line) => (
-          <div key={line.id} className={`${styles.heroLine} ${fjallaOne.className}`}>
+          <div key={line.id} className={`${style.heroLine} ${fjallaOne.className}`}>
             {line.parts.map((part, partIndex) => {
               if (part.type === 'text') {
                 return <span key={partIndex}>{part.content}</span>;
@@ -151,7 +151,7 @@ export default function Hero() {
                   <video
                     key={partIndex}
                     src={part.content} // This will now be '/videos/your-video.mp4'
-                    className={styles.inlineMedia}
+                    className={style.inlineMedia}
                     autoPlay
                     loop
                     muted
@@ -165,7 +165,7 @@ export default function Hero() {
                     key={partIndex}
                     src={part.content} // This will now be '/gifs/your-gif.gif'
                     alt=""
-                    className={styles.inlineMedia}
+                    className={style.inlineMedia}
                     aria-hidden="true"
                   />
                 );

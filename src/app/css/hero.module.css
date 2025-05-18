@@ -1,3 +1,45 @@
+.section{
+
+    margin-top: 100px;
+    .head{
+        letter-spacing: -7px;
+        background-color: pink;
+    }
+    .box{
+        background-color: palevioletred;
+
+        .text{
+            background-color: red;
+            order: 2;
+        }
+        .a{
+            order:1
+        }
+    }
+}
+
+@media screen and (max-width:1200px){
+    .section{
+        margin-top: 60px;
+    }
+    .box{
+        flex-direction: column;
+    }
+    .text{
+        order: 1 !important
+    }
+    .a{
+        order:2 !important
+    }
+}
+
+
+
+
+
+
+
+
 .heroTextSection {
     color: #E0E0E0;
     padding: 40px 20px;
