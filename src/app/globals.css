@@ -22,6 +22,7 @@ body {
   color: var(--foreground);
   font-family: sans-serif;
   padding: 10px 50px;
+
 }
 
 @media screen and (max-width: 810px) {

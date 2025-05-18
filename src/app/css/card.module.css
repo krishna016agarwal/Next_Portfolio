@@ -1,3 +1,37 @@
+/* --- GRID CONTAINER STYLES --- */
+.div2 {
+  display: grid;
+  /* Default: 3 columns for large screens (full laptop screen) */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; /* Example: 24px. Tailwind: gap-6 */
+}
+
+/* Responsive Grid Adjustments */
+/* When screen width is 1300px or less, show 2 columns */
+@media screen and (max-width: 1300px) {
+  .div2 {
+    /* Your original rule had !important, keeping it if it was necessary in your setup */
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem; /* Optionally adjust gap for medium screens */
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .div2 {
+    grid-template-columns: repeat(1, 1fr) !important;/* THIS MAKES IT 1 COLUMN */
+    gap: 1rem; /* Optionally adjust gap for small screens */
+  }
+}
+/* --- END GRID CONTAINER STYLES --- */
+
+/* @media screen and (max-width: 1025px) {
+ .img2{
+  height: 60% !important;
+ }
+} */
+
+/* --- YOUR CARD CSS --- */
 .card {
     background-color: rgb(25, 25, 25);
     padding: 7px;
@@ -5,84 +39,84 @@
     transition: all 0.3s ease-in;
     position: relative;
     overflow: hidden;
-  }
-  
-  /* On hover card background changes */
-  .card:hover {
-    background-color: #b8afd4;
-    color: black;
-  }
-  
-  /* Shared section styles */
-  .details {
-    position: absolute;
-    bottom: 0;
-    left: 0;
     width: 100%;
-    padding: 1rem;
-    transition: transform .5s ease, opacity .1s ease;
+    /* margin-top: 10px; /* Consider removing if using grid gap for all spacing */
   }
-  
-  
-  .detailshover {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 1rem;
-    transition: transform .5s ease, opacity .1s ease;
-  }
-  
-  /* Default state */
-  .details {
-    transform: translateY(0);
-    opacity: 1;
-    z-index: 2;
-  
-    height:110px
-  }
-  
-  .detailshover {
-    transform: translateY(70px);
-    opacity: 0;
-    z-index: 1;
-  }
-  
-  /* Hover state changes */
-  .card:hover .details {
-    transform: translateY(-70px);
-    opacity: 0;
-    z-index: 1;
-  }
-  
-  .card:hover .detailshover {
-    transform: translateY(0);
-    opacity: 1;
-    z-index: 2;
-  }
-  
-  /* Tech styling */
-  .tech {
-    margin-right: 5px;
-    text-transform: uppercase;
-  }
-  
-  /* Button styling */
-  .button {
-    cursor: pointer;
-  
-    
-   
-    border: none;
-    
-  }
-  
-  
-  
-  .buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-top: 1rem;
-  }
-  
+
+/* ALL STYLES BELOW THIS LINE ARE PRESERVED FROM YOUR ORIGINAL CSS */
+/* This ensures your hover effects, colors, and internal layout of overlays remain. */
+
+.card:hover {
+  background-color: #b8afd4;
+  color: black;
+}
+
+.details {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  transition: transform .5s ease, opacity .1s ease;
+}
+
+.detailshover {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  transition: transform .5s ease, opacity .1s ease;
+}
+
+.details {
+  transform: translateY(0);
+  opacity: 1;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+justify-content: end;
+  /* height: 110px !important; */
+   height: 25% !important;
+}
+
+.detailshover {
+  transform: translateY(70px);
+  opacity: 0;
+  z-index: 1;
+ 
+ 
+
+}
+
+.card:hover .details {
+  transform: translateY(-70px);
+  opacity: 0;
+  z-index: 1;
+}
+
+.card:hover .detailshover {
+  transform: translateY(0);
+  opacity: 1;
+  z-index: 2;
+}
+
+.techbox {
+}
+
+.tech {
+  margin-right: 5px;
+  text-transform: uppercase;
+}
+
+.button {
+  cursor: pointer;
+  border: none;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 1rem;
+}
