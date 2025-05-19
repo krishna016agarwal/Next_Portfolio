@@ -43,7 +43,7 @@ export default function Home() {
       <div className={`${style2.loader} loader`}>
         <h3>Code </h3>
         <h3>Create </h3>
-        <h3>Connect</h3>
+        <h3>Connect.</h3>
       </div>
       <main className="min-h-screen flex flex-col items-center text-white px-6 md:px-20 py-10">
         <Hero />
