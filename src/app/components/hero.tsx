@@ -48,7 +48,7 @@ export default function Hero() {
         Hello! I’m Krishna.
       </h2>
 
-      <p className={`${style.head} text-[5.8em]! gap-0  text-white font-bold!  mt-2! text-base/21  `}>
+      <p className={`${style.head} md:text-[6.8em]! text-[4.8em]! gap-0  text-white font-bold!  mt-2! text-base/21  `}>
         <span>
           <span>W</span>
           <span>e</span>
@@ -128,13 +128,13 @@ export default function Hero() {
         </span>
       </p>
 
-      <div className={`${style.box} mt-23! flex justify-between `}>
-        <a href="/contact">
-          <button className={` ${style.a} bg-white! text-black! rounded-full! transition px-[54px]! py-[24px]! font-bold! hover:bg-gray-300! text-[1.3vw]!`}>
+      <div className={`${style.box}  flex justify-between `}>
+        <a href="/contact" className={` ${style.linkbutton}`}>
+          <button className={` ${style.a} bg-white! text-black! rounded-full! transition px-[54px]! py-[24px]! font-bold! hover:bg-gray-300! text-[1.5rem]!`}>
             Let’s Talk →
           </button>
         </a>
-        <p className={`  ${style.text} text-gray-300 mt-10 max-w-xl leading-relaxed text-lg`}>
+        <p className={`  ${style.text} text-gray-300 mt-10 xl:max-w-xl leading-relaxed `}>
           A tech enthusiast transforming ideas into intuitive, functional web
           applications.
         </p>

@@ -1,36 +1,78 @@
 .section{
 
-    margin-top: 100px;
+    margin-top: 60px;
     .head{
-        letter-spacing: -7px;
-        background-color: pink;
+        letter-spacing: -5px;
+        line-height: 100px;
+      
     }
     .box{
-        background-color: palevioletred;
-
-        .text{
-            background-color: red;
-            order: 2;
-        }
+  
+         margin-top: 6rem;
+        
         .a{
             order:1
+        }
+        .text{
+            font-size: large;
         }
     }
 }
 
-@media screen and (max-width:1200px){
+.linkbutton {
+  order: 1;
+}
+.text{
+        font-size: x-large !important;
+            order: 2;
+        }
+@media screen and (max-width:1280px){
     .section{
         margin-top: 60px;
     }
     .box{
         flex-direction: column;
     }
-    .text{
-        order: 1 !important
+      .linkbutton {
+    order: 2;
+  }
+
+  .text {
+    order: 1;
+    width: 100%;
+  }
+  .box{
+    margin-top: 20px !important;
+    gap:1.8rem
+  }
+
+}
+
+
+
+@media screen and (max-width:533px){
+    .head{
+line-height: 67px;
     }
-    .a{
-        order:2 !important
+}
+@media screen and (max-width:1024px){
+    .section{
+        margin-top: 90px;
     }
+}
+
+
+@media screen and (max-width:768px){
+    .head{
+        line-height: 70px !important;
+    }
+}
+
+
+@media screen and (max-width:768px){
+.section{
+    padding: 0px 5px 0px 5px;
+}
 }
 
 
@@ -99,5 +141,13 @@
         /* Consider a slightly larger clamp for very small screens to maintain readability */
         /* font-size: clamp(1.6rem, 15vw, 5rem); /* User's was 20vw, which might be too big */
         line-height: 1.1;
+    }
+    .a{
+        width: 100% !important;
+    }
+    .text{
+        margin-top: 15px;
+        font-size: x-large !important;
+        line-height: 30px;
     }
 }
