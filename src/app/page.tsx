@@ -1,13 +1,55 @@
+"use client";
+
+import gsap from "gsap";
+import style2 from "./css/loader.module.css";
+import { useEffect } from "react";
 import Footer from "./components/footer";
-import Hero from "./components/hero"
-import style from "./css/about.module.css"
+import Hero from "./components/hero";
+import style from "./css/about.module.css";
 
 export default function Home() {
+  useEffect(() => {
+    const tl = gsap.timeline();
+
+    tl.from(".loader h3", {
+      x: -40,
+      opacity: 0,
+      duration: .5,
+      stagger: 0.1
+    });
+    tl.to(".loader h3",{
+      opacity:1,
+      x:-10,
+     
+      stagger:0.1,
+      duration:1
+    })
+    tl.to(".loader h3",{
+      opacity:0,
+      x:-20,
+      stagger:0.1,
+      duration:1.5
+    })
+    tl.to(".loader",{
+      opacity:0
+    })
+    tl.to(".loader",{
+      display:"none"
+    })
+  }, []);
+
   return (
-    <main className="min-h-screen flex! flex-col! items-center! text-white px-6 md:px-20 py-10">
-    
-      <Hero />
-                  <Footer></Footer>
-    </main>
+    <>
+      <div className={`${style2.loader} loader`}>
+        <h3>Coding With Purpose.</h3>
+
+        <h3>Impacting the</h3>
+        <h3>World</h3>
+      </div>
+      <main className="min-h-screen flex flex-col items-center text-white px-6 md:px-20 py-10">
+        <Hero />
+        <Footer />
+      </main>
+    </>
   );
 }

@@ -37,6 +37,7 @@ export default function Footer() {
                   <span className={fjallaOne.className}>WORK</span>
                   <div className={`${style.links} ${fjallaOne.className}`}>
                     <a href="/projects">ALL PROJECTS</a>
+                
                   </div>
                 </div>
                 <div>
