@@ -4,7 +4,11 @@
     .head{
         letter-spacing: -5px;
         line-height: 100px;
-      
+      span{
+        span{
+            display: inline;
+        }
+      }
     }
     .box{
   

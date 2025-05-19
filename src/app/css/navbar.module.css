@@ -1,0 +1,58 @@
+.div{
+    padding: 50px !important;
+}
+@media screen and (max-width:810px){
+    .div{
+        padding: 13px !important;
+    }
+}
+
+.menubar,.menuoverlay{
+    position: fixed;
+    top:0;
+    left:0;
+    width:2em;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+
+}
+.menubar a, .menuopen p{
+    color:#fff;
+    cursor:pointer
+}
+.menuclose p{
+    color:black
+}
+.menuoverlay{
+    position: fixed;
+    top:0;
+    left: 0;
+    width:100vw;
+    height:100vh;
+    padding:2em;
+    z-index: 2;
+    background-color: pink;
+    display: flex;
+}
+.menucloseicon{
+    flex:2;
+ align-items: flex-end;
+ cursor: pointer;
+    display: flex;
+}
+.menucopy{
+flex:4;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+padding-top: 2em;
+}
+.menupreview{
+    flex:4;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
