@@ -1,57 +1,64 @@
 .div {
-  padding: 50px !important;
+  padding: 0 50px !important; /* Use 0 for top/bottom padding unless specifically needed */
 }
 @media screen and (max-width: 810px) {
   .div {
-    padding: 13px !important;
+    padding: 0 13px !important; /* Use 0 for top/bottom padding */
   }
 }
 
-.overlay {
+.menuoverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 999; /* Increased to stay above other content */
+  z-index: 40; /* Below navbar header (z-50) but above other page content */
   color: white;
-  display: flex;
   background-color: black;
-  will-change: transform;
-}
-
-.overlaymenu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
   display: flex;
-  z-index: 1000;
-  gap: 1em;
-  background-color: rgb(0, 0, 0);
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-
-  /* Removed clip-path to allow visibility */
-  /* If you want animation, we can use a CSS transition instead */
+  align-items: center;
+  /* Initial state set by GSAP: clip-path: polygon(0% 0%, 100% 0, 100% 0%, 0% 0%); */
+  /* GSAP will animate this to: clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); */
 }
 
-.menuitem {
+.menucopy {
+  flex: 4; /* This doesn't seem to have a parent with flex properties to make sense */
+            /* Assuming it's for layout within the overlay */
   display: flex;
-  cursor: pointer;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 2em; /* Or adjust as needed for vertical alignment */
+  width: 100%; /* Ensure it takes full width for centering children */
 }
 
-.menuitem p {
-  position: relative;
-  text-align: center;
-  font-size: 4rem;
-  line-height: 100%;
-  will-change: transform;
-  transition: letter-spacing 0.3s;
+.menulinkitem {
+  width: max-content; /* Allow item to size to its content */
+  /* clip-path for item itself, useful if individual items have reveal. Not strictly needed for this animation. */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); 
+  overflow: hidden; /* Good practice if children animate from outside bounds */
 }
 
-.menuitem p:hover {
-  letter-spacing: 0.075em;
+.menulinkitemholder {
+  position: relative; /* For potential absolute positioning of pseudo-elements if needed */
+  /* GSAP will animate y and opacity of this element */
+  /* Initial state set by GSAP: transform: translateY(75px); opacity: 0; */
+}
+
+.menulink {
+  color: white;
+  font-size: clamp(40px, 7vw, 80px); /* Responsive font size */
+  font-weight: 400;
+  letter-spacing: -0.02em; /* Initial smaller spacing */
+  line-height: 1.25; /* Using unitless line-height is often preferred */
+  text-decoration: none;
+  display: inline-block; /* Important for letter-spacing and hover transitions */
+  padding: 10px 0; /* Add some padding for easier hover */
+  transition: letter-spacing 0.3s ease-in-out; /* Smooth transition for letter-spacing */
+}
+
+.menulinkitemholder:hover .menulink {
+  letter-spacing: 0.03em; /* "increase little" on hover */
 }
