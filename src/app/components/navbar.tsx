@@ -19,7 +19,7 @@ const tl = useRef();
 const menuLinks = [
 { path: "/", label: "Home" },
 { path: "/about", label: "About" },
-{ path: "/projects", label: "Projects" },
+{ path: "/projects", label: "Works" },
 { path: "/certificates", label: "Certificates" },
 { path: "/contact", label: "Contact" },
 ];

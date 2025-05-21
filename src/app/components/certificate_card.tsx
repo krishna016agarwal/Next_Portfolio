@@ -32,7 +32,7 @@ export default function Certificate_card() {
   return (
     // Grid container: uses CSS module for grid layout.
     // Tailwind classes for padding and min-height are kept for flexibility.
-    <div className={`${style.certificateGridContainer} p-8 min-h-screen`}>
+    <div className={`${style.certificateGridContainer} p-8 min-h-screen mt-32!`}>
       {certificates.map((certificate) => (
         <div
           key={certificate._id} // Use a unique ID from your data for the key
