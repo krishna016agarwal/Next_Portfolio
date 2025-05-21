@@ -222,7 +222,7 @@
 .education{
  font-size: 5rem; 
 }
-@media  screen and (max-width:370px) {
+@media  screen and (max-width:462px) {
  .education{
  font-size: 4rem !important; 
 } 

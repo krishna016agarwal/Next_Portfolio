@@ -22,9 +22,14 @@ export default function page() {
   useEffect(() => {
     skillscalling();
   }, []);
-  console.log(skills);
 
+  interface Experience {
+    name: string;
+    timeperiod: string;
+    organisation: string;
+  }
   const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [experience, setexperience] = useState<Experience[]>([]);
 
   useEffect(() => {
     const fetchUrl = async () => {
@@ -34,6 +39,17 @@ export default function page() {
     };
     fetchUrl();
   }, []);
+
+  useEffect(() => {
+    const fetchExperience = async () => {
+      const res = await fetch("/api/experience");
+      const data = await res.json();
+
+      setexperience(data.data);
+    };
+    fetchExperience();
+  }, []);
+  console.log(experience);
 
   return (
     <>
@@ -110,14 +126,14 @@ export default function page() {
             </div>
           </div>
         </div>
-
-        <div className={style.scroll}>
+ <div className={` lg:mt-20! ${style.scroll}`}>
           <div className={style.scrollContent}>
             {[...skills, ...skills].map((e, index) => (
               <span key={index}>{e}</span>
             ))}
           </div>
         </div>
+       
         <div className={style.edudiv}>
           <p
             className={`${style.education} ${style.edu} gap-0 mb-4! text-white font-bold!  mt-2! lg:text-base/21 .  `}
@@ -135,9 +151,9 @@ export default function page() {
           <div className={style.box}>
             <div className={`${style.box1} ${style.edu}`}>
               <p className={style.eduname}>
-                <p className={style.name}>
+                <span className={style.name}>
                   Maharaja Agrasen Institute of Technology
-                </p>
+                </span>
                 <br></br>
                 <span className={style.span}>B.tech (CSE)</span>
               </p>
@@ -146,7 +162,7 @@ export default function page() {
 
             <div className={`${style.box1} ${style.edu}`}>
               <p className={style.eduname}>
-                <p className={style.name}>Lovely Public sr.sec school</p>
+                <span className={style.name}>Lovely Public sr.sec school</span>
                 <br></br>
                 <span className={style.span}>12th PCM</span>
               </p>
@@ -155,7 +171,7 @@ export default function page() {
             {/* <hr className={style.hr}></hr> */}
             <div className={`${style.box1} ${style.edu}`}>
               <p className={style.eduname}>
-                <p className={style.name}>St. John's sr.sec school</p>
+                <span className={style.name}>St. John's sr.sec school</span>
                 <br></br>
                 <span className={style.span}>10th</span>
               </p>
@@ -163,6 +179,44 @@ export default function page() {
             </div>
           </div>
         </div>
+
+
+
+
+
+
+        {experience.length != 0 && (
+          <div className={style.edudiv}>
+            <p
+              className={`${style.education} ${style.edu} gap-0 mb-4! text-white font-bold!  mt-2! lg:text-base/21 .  `}
+            >
+              <span>E</span>
+              <span>x</span>
+              <span>p</span>
+              <span>e</span>
+              <span>r</span>
+              <span>i</span>
+              <span>e</span>
+              <span>n</span>
+              <span>c</span>
+              <span>e</span>
+            </p>
+
+            {experience.map((e,key) => (
+              <div className={style.box} key={key}>
+                <div className={`${style.box1} ${style.edu}`}>
+                  <p className={style.eduname}>
+                    <span className={style.name}>{e.name}</span>
+                    <br></br>
+                    <span className={style.span}>{e.organisation}</span>
+                  </p>
+                  <p className={style.eduyear}>{e.timeperiod}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className={style.cv}>
           <div className={style.resume}>
             <button
