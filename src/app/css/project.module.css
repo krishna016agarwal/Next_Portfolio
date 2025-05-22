@@ -43,7 +43,7 @@
         line-height: 1px;
     }
 }
-@media screen and (max-width:575px){
+@media screen and (max-width:770px){
     .div{
         padding: 0px 18px ;
     }
