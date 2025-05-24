@@ -1,7 +1,9 @@
 import style from "../css/hero.module.css"; // This path seems correct based on your structure
 import { Fjalla_One } from "next/font/google";
 import gsap from "gsap";
+
 import { useEffect } from "react";
+import { useGSAP } from "@gsap/react";
 const fjallaOne = Fjalla_One({
   weight: "400",
   subsets: ["latin"],
@@ -43,14 +45,16 @@ const heroLinesData: HeroLineData[] = [
 ];
 
 export default function Hero() {
-  useEffect(()=>{
-     const tl = gsap.timeline();
-     tl.from(".head span span",{
-      y:100,
+
+  useGSAP(()=>{
+    gsap.from(".head span span",{
+       y:100,
       opacity:0,
-      stagger:0.5
-     })
-  },[])
+      stagger:0.5,
+      duration:3,
+      delay:0.5
+    })
+  })
   return (
     <section className={` ${style.section}  flex justify-items-start flex-col lg:py-[72px]! lg:px-[80px]!  relative   `}>
       <h2 className="text-white text-xl mb-6 text-[1.8rem]! font-bold!">
@@ -184,6 +188,7 @@ export default function Hero() {
           </div>
         ))}
       </section>
+
     </section>
   );
 }

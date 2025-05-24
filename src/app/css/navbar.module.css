@@ -15,7 +15,7 @@
   height: 100vh;
   z-index: 40; /* Below navbar header (z-50) but above other page content */
   color: white;
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,13 +42,14 @@
 }
 
 .menulinkitemholder {
+  
   position: relative; /* For potential absolute positioning of pseudo-elements if needed */
   /* GSAP will animate y and opacity of this element */
   /* Initial state set by GSAP: transform: translateY(75px); opacity: 0; */
 }
 
 .menulink {
-  color: white;
+  color: rgb(255, 255, 255);
   font-size: clamp(40px, 7vw, 80px); /* Responsive font size */
   font-weight: 400;
   letter-spacing: -0.02em; /* Initial smaller spacing */

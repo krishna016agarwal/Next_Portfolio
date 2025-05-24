@@ -1,28 +1,37 @@
+"use client";
 import React from "react";
 import Card from "../components/card";
 import style from "../css/about.module.css";
 import style2 from "../css/project.module.css";
 import Footer from "../components/footer";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 export default function page() {
+  useGSAP(() => {
+    gsap.from(".head", {
+      opacity: 0,
+      y: 40,
+      duration: 2,
+    });
+  gsap.from(".sectionpart span", {
+  y: 50,
+  opacity: 0,
+  duration: 1.2,
+  delay: 0.6,
+ 
+  
+  force3D: true, // helps with performance and treats spans as animatable layers
+});
+
+  });
   return (
     <>
-     
       <div className="flex flex-col  ">
-        {/* <div
-          className="mt-30! text-[11vw]! mx-auto!"
-          style={{
-            fontFamily: "Fjalla One",
-            fontWeight: "normal",
-            color: "#b6dd9d",
-          }}
-        >
-          PROJECTS
-        </div> */}
         <div className={style2.div}>
-          <div className={`${style2.head} text-3xl!`}>My Works</div>
+          <div className={`${style2.head} head text-3xl!`}>My Works</div>
           <div className={style2.section}>
             <p
-              className={`${style2.sectionpart}  gap-0  text-white font-bold!  mt-2! lg:text-base/21 mr-10! bg-amber-300!.  `}
+              className={`${style2.sectionpart} sectionpart  gap-0  text-white font-bold!  mt-2! lg:text-base/21 mr-10! bg-amber-300!.  `}
             >
               <span>C</span>
               <span>r</span>
@@ -48,25 +57,25 @@ export default function page() {
               <span>e</span>
               <span> </span>
               <span className="text-gray-500 font-bold!">
-              <span>d</span>
-              <span>i</span>
-              <span>g</span>
-              <span>i</span>
-              <span>t</span>
-              <span>a</span>
-              <span>l</span>
-              <span> </span>
-              <span>i</span>
-              <span>m</span>
-              <span>p</span>
-              <span>r</span>
-              <span>e</span>
-              <span>s</span>
-              <span>s</span>
-              <span>i</span>
-              <span>o</span>
-              <span>n</span>
-              <span>s</span>
+                <span>d</span>
+                <span>i</span>
+                <span>g</span>
+                <span>i</span>
+                <span>t</span>
+                <span>a</span>
+                <span>l</span>
+                <span> </span>
+                <span>i</span>
+                <span>m</span>
+                <span>p</span>
+                <span>r</span>
+                <span>e</span>
+                <span>s</span>
+                <span>s</span>
+                <span>i</span>
+                <span>o</span>
+                <span>n</span>
+                <span>s</span>
               </span>
             </p>
           </div>
