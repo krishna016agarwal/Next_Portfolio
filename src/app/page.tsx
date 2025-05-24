@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import Footer from "./components/footer";
 import Hero from "./components/hero";
 import style from "./css/about.module.css";
+import Scroll from "./components/scroll";
 
 export default function Home() {
   useEffect(() => {
@@ -47,6 +48,7 @@ export default function Home() {
       </div>
       <main className="min-h-screen flex flex-col items-center text-white px-6 md:px-20 py-10">
         <Hero />
+   
         <Footer />
       </main>
     </>

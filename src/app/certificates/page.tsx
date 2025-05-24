@@ -4,15 +4,32 @@ import style from "../css/about.module.css";
 import style2 from "../css/project.module.css";
 import Certificate_card from "../components/certificate_card";
 import Footer from "../components/footer";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 export default function page() {
+   useGSAP(() => {
+    gsap.from(".head", {
+      opacity: 0,
+      y: 100,
+      duration: 1,
+       delay: 0.5,
+    });
+    gsap.from(".sectionpart ", {
+      y: 100,
+      opacity: 0,
+       duration: 1,
+      delay: 0.7,
+      
+    });
+  });
   return (
     <>
       <div className="flex flex-col items-center ">
         <div className={style2.div}>
-          <div className={`${style2.head} text-3xl!`}>My Certificates</div>
+          <div className={`${style2.head} head text-3xl!`}>My Certificates</div>
           <div className={style2.section}>
             <p
-              className={`${style2.sectionpart}  gap-0  text-white font-bold!  mt-2! lg:text-base/21 mr-10! bg-amber-300!.  `}
+              className={`${style2.sectionpart} sectionpart gap-0  text-white font-bold!  mt-2! lg:text-base/21 mr-10! bg-amber-300!.  `}
             >
               <span>M</span>
               <span>a</span>

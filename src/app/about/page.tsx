@@ -25,11 +25,6 @@ export default function page() {
   useEffect(() => {
     skillscalling();
   }, []);
- 
-
-
-
-
 
   
   interface Experience {
@@ -58,9 +53,78 @@ export default function page() {
     };
     fetchExperience();
   }, []);
-
-
-
+console.log(experience);
+    useGSAP(() => {
+    gsap.from(".head", {
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      delay: 0.5,
+    });
+    gsap.from(".sectionpart", {
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      delay: 0.7,
+    });
+    gsap.from(".abouttext", {
+      x: 100,
+      opacity: 0,
+      duration: 1,
+      delay: 0.9,
+    });
+    gsap.from(".btn", {
+      x: 100,
+      opacity: 0,
+      duration: 1,
+      delay: 1.2,
+    });
+    gsap.from(".education", {
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      delay: 0.5,
+      scrollTrigger: {
+        trigger: ".edudiv",
+        scroller: "body",
+      },
+    });
+    gsap.from(".box1", {
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      delay: 1,
+      stagger: 0.5,
+      scrollTrigger: {
+        trigger: ".edudiv",
+        scroller: "body",
+      },
+    });
+    
+    if (experience.length != 0) {
+      gsap.from(".experience", {
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        delay: 0.5,
+        scrollTrigger: {
+          trigger: ".exper",
+          scroller: "body",
+        },
+      });
+      gsap.from(".box2", {
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        delay: 1,
+        stagger: 0.5,
+        scrollTrigger: {
+          trigger: ".exper",
+          scroller: "body",
+        },
+      });
+    }
+  });
 
   return (
     <>

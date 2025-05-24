@@ -10,19 +10,17 @@ export default function page() {
   useGSAP(() => {
     gsap.from(".head", {
       opacity: 0,
-      y: 40,
-      duration: 2,
+      y: 100,
+      duration: 1,
+       delay: 0.5,
     });
-  gsap.from(".sectionpart span", {
-  y: 50,
-  opacity: 0,
-  duration: 1.2,
-  delay: 0.6,
- 
-  
-  force3D: true, // helps with performance and treats spans as animatable layers
-});
-
+    gsap.from(".sectionpart ", {
+      y: 100,
+      opacity: 0,
+       duration: 1,
+      delay: 0.7,
+      
+    });
   });
   return (
     <>
