@@ -15,6 +15,7 @@ interface Project {
 
 export default function Card() {
   const [data, setData] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const submit = async () => {
     try {
@@ -29,11 +30,21 @@ export default function Card() {
       console.error("Error fetching projects:", error);
       setData([]);
     }
+    finally{
+      setLoading(false)
+    }
   };
 
   useEffect(() => {
     submit();
   }, []);
+  if (loading) {
+    return (
+      <div className="flex! justify-center! items-center! min-h-screen! text-2xl!  md:text-6xl!">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     

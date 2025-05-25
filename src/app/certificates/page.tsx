@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React,{useState} from "react";
 import style from "../css/about.module.css";
 import style2 from "../css/project.module.css";
 import Certificate_card from "../components/certificate_card";
@@ -22,6 +22,7 @@ export default function page() {
       
     });
   });
+
   return (
     <>
       <div className="flex flex-col items-center ">
