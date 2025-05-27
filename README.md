@@ -33,14 +33,7 @@ It’s more than just a showcase — it's a live, evolving space reflecting my w
 
 I built this portfolio not just to showcase my work, but as a **sandbox** for continuous learning, iteration, and growth as a full-stack developer.
 
----
 
-## 📄 Resume
-
-Hosted with Cloudflare for quick and reliable access.  
-👉 [View/Download Resume](https://example.com) <!-- Replace with your actual Cloudflare-hosted resume link -->
-
----
 
 ## 🧪 What I Learned
 
