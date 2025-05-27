@@ -18,10 +18,10 @@
   }
 }
 
-@media screen and(max-width:615px) {
+@media screen and (max-width:615px) {
   .loader {
     h3 {
-      font-size: 1.1rem !important;
+      font-size: 6vw !important;
     }
   }
 }

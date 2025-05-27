@@ -5,7 +5,11 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem; /* Example: 24px. Tailwind: gap-6 */
 }
-
+.img2{
+  img{
+    height: 100% !important;
+  }
+}
 /* Responsive Grid Adjustments */
 /* When screen width is 1300px or less, show 2 columns */
 @media screen and (max-width: 1300px) {
@@ -23,6 +27,7 @@
     gap: 1rem; /* Optionally adjust gap for small screens */
   }
 }
+
 /* --- END GRID CONTAINER STYLES --- */
 
 /* @media screen and (max-width: 1025px) {
@@ -88,6 +93,11 @@ justify-content: end;
  
 
 }
+.detailshover{
+  p{
+    font-size: 1.5rem;
+  }
+}
 
 .card:hover .details {
   transform: translateY(-70px);
@@ -119,4 +129,18 @@ justify-content: end;
   flex-direction: column;
   gap: 4px;
   margin-top: 1rem;
+}
+
+@media screen and (max-width: 420px) {
+.img2{
+  img{
+    height: 95% !important;
+  }}
+  .detailshover{
+    p{
+      font-size: 1.2rem !important;
+    }
+  }
+
+
 }

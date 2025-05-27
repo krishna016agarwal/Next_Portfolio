@@ -61,7 +61,7 @@ export default function Card() {
             <img
               src={e.image}
               alt={e.name}
-              className="absolute inset-0 w-full h-full! object-cover"
+              className="absolute inset-0 w-full  object-cover"
              
             />
           </div>
@@ -78,7 +78,7 @@ export default function Card() {
           </div>
 
           <div className={style.detailshover}>
-            <p className="text-md uppercase text-2xl">{e.name}</p>
+            <p className="text-md uppercase ">{e.name}</p>
             <div className={style.buttons}>
               <a href={e.github} target="_blank" rel="noopener noreferrer">
                 <button className={`rounded-full ${style.button}`}>
