@@ -46,18 +46,9 @@ I built this portfolio not just to showcase my work, but as a **sandbox** for co
 
 ## 💬 Feedback & Contributions
 
-Have thoughts or suggestions? Feel free to fork the repo, open issues, or connect with me on [LinkedIn](https://www.linkedin.com/in/YOUR-USERNAME)  
+Have thoughts or suggestions? Feel free to fork the repo, open issues, or connect with me on [LinkedIn](https://www.linkedin.com/in/krishna-agarwal-4a5a76327/)  
 I'd love to hear from you!
 
----
-
-## 🔗 Connect With Me
-
-- 🌐 [Portfolio Website](https://lnkd.in/emwTjU7Z)
-- 💼 [LinkedIn](https://www.linkedin.com/in/YOUR-USERNAME)
-- 🐙 [GitHub](https://github.com/YOUR-USERNAME)
-
----
 
 > _Built with passion. Designed for growth._
 
