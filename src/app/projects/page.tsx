@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import Card from "../components/card";
-import style from "../css/about.module.css";
+
 import style2 from "../css/project.module.css";
 import Footer from "../components/footer";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-export default function page() {
+export default function Page() {
   useGSAP(() => {
     gsap.from(".head", {
       opacity: 0,

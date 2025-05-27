@@ -62,10 +62,7 @@ export default function Card() {
               src={e.image}
               alt={e.name}
               className="absolute inset-0 w-full h-full! object-cover"
-              onError={(event) => {
-                console.warn(`Error loading image for ${e.name}: ${event.currentTarget.src}`);
-               
-              }}
+             
             />
           </div>
 

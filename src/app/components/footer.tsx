@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import style from "../css/about.module.css";
-import Head from "next/head"; // Still useful for other meta tags
+
 // Import the font function from next/font/google
 import { Fjalla_One } from "next/font/google";
 import { useGSAP } from "@gsap/react";
@@ -16,20 +16,7 @@ const fjallaOne = Fjalla_One({
 
 export default function Footer() {
   useGSAP(() => {
-    // gsap.from(".name2", {
-    //   y: 50,
-    //   opacity: 0,
-    //   duration: 1,
-    //   stagger:.2,
-    //   delay: 1,
-    // });
-    // gsap.from(".value2", {
-    //   y: 50,
-    //   opacity: 0,
-    //   stagger:.3,
-    //   duration: 1,
-    //   delay: 1,
-    // });
+    
     gsap.from(".div",{
       y:50,
       opacity:0,
@@ -75,7 +62,7 @@ export default function Footer() {
         </div>
       </div>
       <div>
-        <span className={`${fjallaOne.className} name2 inline-block`}>LET'S TALK</span>
+        <span className={`${fjallaOne.className} name2 inline-block`}>LET&apos;S TALK</span>
         <div className={`${style.links} ${fjallaOne.className}`}>
           <a className={`value2`} href="mailto:krishna016agrawal@gmail.com">
             EMAIL

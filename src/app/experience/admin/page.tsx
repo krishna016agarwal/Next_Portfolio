@@ -2,45 +2,71 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import axios from "axios";
 
+// ------------ INTERFACES ------------
 interface Experience {
-  _id?: string;
+  _id: string; // Assuming _id is always present when fetched
   name: string;
   timeperiod: string;
   organisation?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: string; // Optional, if backend provides it
+  updatedAt?: string; // Optional, if backend provides it
 }
 
+// For creating a new experience, _id is not needed
+type NewExperienceData = Omit<Experience, "_id" | "createdAt" | "updatedAt">;
+
+// For updating, all fields are optional, and we'll send an ID
+type UpdateExperienceData = Partial<Omit<Experience, "_id" | "createdAt" | "updatedAt">>;
+
+
+interface AdminAuthResponse {
+  success: boolean;
+  message?: string;
+}
+
+interface ExperienceApiResponse {
+  success: boolean;
+  data: Experience[];
+  message?: string;
+}
+
+interface ExperienceMutationResponse {
+  success: boolean;
+  message?: string;
+  experience?: Experience; // For POST/PATCH if backend returns the item
+}
+
+// ------------ COMPONENT ------------
 export default function ExperienceAdminPage() {
-  const [newExperience, setNewExperience] = useState<Experience>({
+  const [newExperience, setNewExperience] = useState<NewExperienceData>({
     name: "",
     timeperiod: "",
     organisation: "",
   });
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
   const [currentExperience, setCurrentExperience] = useState<Experience | null>(null);
-  const [updateFormData, setUpdateFormData] = useState<Partial<Experience>>({});
+  // updateFormData will hold the current state of the update form fields
+  const [updateFormData, setUpdateFormData] = useState<UpdateExperienceData>({});
   const [experienceList, setExperienceList] = useState<Experience[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [pageLoading, setPageLoading] = useState(true);
-  const [passwordInput, setPasswordInput] = useState("");
-  const [authenticated, setAuthenticated] = useState(false);
-  const [authLoading, setAuthLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false); // Generic loading for CUD operations
+  const [pageLoading, setPageLoading] = useState<boolean>(true); // For initial data fetch
+  const [passwordInput, setPasswordInput] = useState<string>("");
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
+  const [authLoading, setAuthLoading] = useState<boolean>(false);
 
   const fetchExperiences = async () => {
-    setLoading(true);
+    setPageLoading(true); // Use pageLoading for the initial fetch
     try {
-      const res = await axios.get("/api/experience");
+      const res = await axios.get<ExperienceApiResponse>("/api/experience");
       if (res.data.success) {
         setExperienceList(res.data.data);
       } else {
-        alert("!Failed !to !fetch !experiences.");
+        alert(`!Failed to fetch experiences: ${res.data.message || "Unknown error"}`);
       }
     } catch (error) {
-      console.error("!Error !fetching !experiences:", error);
-      alert("!Error !fetching !experiences.");
+      console.error("!Error fetching experiences:", error);
+      alert("!Error fetching experiences.");
     } finally {
-      setLoading(false);
       setPageLoading(false);
     }
   };
@@ -52,44 +78,63 @@ export default function ExperienceAdminPage() {
 
   const handleNewExperienceSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!newExperience.name || !newExperience.timeperiod) {
-      alert("!Name !and !Time !Period !are !required.");
+    if (!newExperience.name.trim() || !newExperience.timeperiod.trim()) {
+      alert("!Name and Time Period are required.");
       return;
     }
     setLoading(true);
     try {
-      const res = await axios.post("/api/experience", newExperience);
+      const res = await axios.post<ExperienceMutationResponse>("/api/experience", newExperience);
       if (res.data.success) {
         alert("✅ Experience added successfully!");
         setNewExperience({ name: "", timeperiod: "", organisation: "" });
-        fetchExperiences();
+        fetchExperiences(); // Re-fetch to update the list
       } else {
         alert(`❌ Failed to add experience: ${res.data.message || "Unknown error"}`);
       }
-    } catch (error: any) {
-      alert(`❌ Error adding experience: ${error.response?.data?.message || error.message}`);
-      console.error(error);
+    } catch (error: unknown) {
+      let errorMessage = "❌ Unknown error occurred while adding experience.";
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data as Partial<ExperienceMutationResponse>;
+        errorMessage = `❌ Error adding experience: ${serverError?.message || error.message}`;
+      } else if (error instanceof Error) {
+        errorMessage = `❌ Error adding experience: ${error.message}`;
+      }
+      alert(errorMessage);
+      console.error("Add Experience Error:", error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteExperience = async (id: string) => {
-    if (!id) return;
-    if (!window.confirm("!Are !you !sure !you !want !to !delete !this !experience?")) return;
+    if (!id) {
+        console.error("Delete attempt with no ID.");
+        return;
+    }
+    if (!window.confirm("!Are you sure you want to delete this experience?")) return;
 
     setLoading(true);
     try {
-      const res = await axios.delete(`/api/experience?id=${id}`);
+      // Assuming DELETE API expects ID in query params or body
+      // If in body: await axios.delete<ExperienceMutationResponse>("/api/experience", { data: { id } });
+      const res = await axios.delete<ExperienceMutationResponse>(`/api/experience?id=${id}`);
       if (res.data.success) {
         alert("🗑️ Experience deleted successfully!");
-        fetchExperiences();
+        fetchExperiences(); // Re-fetch
       } else {
         alert(`❌ Failed to delete experience: ${res.data.message || "Unknown error"}`);
       }
-    } catch (error: any) {
-      alert(`❌ Error deleting experience: ${error.response?.data?.message || error.message}`);
-      console.error(error);
+    } catch (error: unknown) {
+      let errorMessage = "❌ Unknown error occurred while deleting experience.";
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data as Partial<ExperienceMutationResponse>;
+        errorMessage = `❌ Error deleting experience: ${serverError?.message || error.message}`;
+      } else if (error instanceof Error) {
+        errorMessage = `❌ Error deleting experience: ${error.message}`;
+      }
+      alert(errorMessage);
+      console.error("Delete Experience Error:", error);
     } finally {
       setLoading(false);
     }
@@ -97,10 +142,11 @@ export default function ExperienceAdminPage() {
 
   const openUpdateModal = (exp: Experience) => {
     setCurrentExperience(exp);
+    // Pre-fill update form with current experience data
     setUpdateFormData({
       name: exp.name,
       timeperiod: exp.timeperiod,
-      organisation: exp.organisation || "",
+      organisation: exp.organisation || "", // Ensure organisation is a string
     });
     setIsUpdateModalOpen(true);
   };
@@ -112,48 +158,65 @@ export default function ExperienceAdminPage() {
 
   const handleUpdateExperienceSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!currentExperience?._id) return;
+    if (!currentExperience?._id) {
+        alert("!No current experience selected for update.");
+        return;
+    }
+    // Validate required fields in the update form
+    if (!updateFormData.name?.trim()) {
+      alert("!Name cannot be empty.");
+      return;
+    }
+    if (!updateFormData.timeperiod?.trim()) {
+      alert("!Time period cannot be empty.");
+      return;
+    }
 
-    const changedData: Partial<Experience> = {};
-    if (updateFormData.name !== undefined && updateFormData.name !== currentExperience.name) {
-      changedData.name = updateFormData.name;
+    const changedData: UpdateExperienceData = {};
+    // Only include fields that have actually changed
+    if (updateFormData.name !== currentExperience.name) {
+      changedData.name = updateFormData.name.trim();
     }
-    if (updateFormData.timeperiod !== undefined && updateFormData.timeperiod !== currentExperience.timeperiod) {
-      changedData.timeperiod = updateFormData.timeperiod;
+    if (updateFormData.timeperiod !== currentExperience.timeperiod) {
+      changedData.timeperiod = updateFormData.timeperiod.trim();
     }
-    if (updateFormData.organisation !== undefined && updateFormData.organisation !== (currentExperience.organisation || "")) {
-      if (updateFormData.organisation || currentExperience.organisation) {
-        changedData.organisation = updateFormData.organisation;
-      }
+    // Handle organisation: it's optional, so an empty string is valid if it was previously set
+    const currentOrg = currentExperience.organisation || "";
+    const updatedOrg = updateFormData.organisation?.trim() || "";
+    if (updatedOrg !== currentOrg) {
+      changedData.organisation = updatedOrg;
     }
 
     if (Object.keys(changedData).length === 0) {
-      alert("!No !changes !detected !to !update.");
+      alert("!No changes detected to update.");
       setIsUpdateModalOpen(false);
-      return;
-    }
-    if (!changedData.name && !updateFormData.name) {
-      alert("!Name !cannot !be !empty.");
-      return;
-    }
-    if (!changedData.timeperiod && !updateFormData.timeperiod) {
-      alert("!Time !period !cannot !be !empty.");
       return;
     }
 
     setLoading(true);
     try {
-      const res = await axios.patch(`/api/experience?id=${currentExperience._id}`, changedData);
+      // Assuming PATCH API expects ID in query params and data in body
+      const res = await axios.patch<ExperienceMutationResponse>(
+        `/api/experience?id=${currentExperience._id}`,
+        changedData
+      );
       if (res.data.success) {
         alert("✅ Experience updated successfully!");
         setIsUpdateModalOpen(false);
-        fetchExperiences();
+        fetchExperiences(); // Re-fetch
       } else {
         alert(`❌ Failed to update experience: ${res.data.message || "Unknown error"}`);
       }
-    } catch (error: any) {
-      alert(`❌ Error updating experience: ${error.response?.data?.message || error.message}`);
-      console.error(error);
+    } catch (error: unknown) {
+      let errorMessage = "❌ Unknown error occurred while updating experience.";
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data as Partial<ExperienceMutationResponse>;
+        errorMessage = `❌ Error updating experience: ${serverError?.message || error.message}`;
+      } else if (error instanceof Error) {
+        errorMessage = `❌ Error updating experience: ${error.message}`;
+      }
+      alert(errorMessage);
+      console.error("Update Experience Error:", error);
     } finally {
       setLoading(false);
     }
@@ -163,16 +226,23 @@ export default function ExperienceAdminPage() {
     e.preventDefault();
     setAuthLoading(true);
     try {
-      const res = await axios.post("/api/admin", { password: passwordInput }); // Using your /api/admin endpoint
+      const res = await axios.post<AdminAuthResponse>("/api/admin", { password: passwordInput });
       if (res.data.success) {
         setAuthenticated(true);
-        // fetchExperiences(); // This will be called by the useEffect below
+        // fetchExperiences will be called by useEffect
       } else {
-        alert(res.data.message || "!Incorrect !password. !Access !denied.");
+        alert(res.data.message || "!Incorrect password. Access denied.");
       }
-    } catch (error: any) {
-      alert(error.response?.data?.message || "!Error !validating !password");
-      console.error(error);
+    } catch (error: unknown) {
+      let errorMessage = "!Error validating password";
+      if (axios.isAxiosError(error)) {
+        const serverError = error.response?.data as Partial<AdminAuthResponse>;
+        errorMessage = serverError?.message || error.message;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      alert(errorMessage);
+      console.error("Password Validation Error:", error);
     }
     setPasswordInput("");
     setAuthLoading(false);
@@ -184,9 +254,11 @@ export default function ExperienceAdminPage() {
     }
   }, [authenticated]);
 
+
+  // ------------ JSX ------------
   if (!authenticated) {
     return (
-      <div className="!fixed !inset-0 !bg-black !bg-opacity-80 !flex !items-center !justify-center !z-50">
+      <div className="!fixed !inset-0 !bg-black !bg-opacity-80 !flex !items-center !justify-center !z-50 !p-4">
         <form
           onSubmit={handlePasswordSubmit}
           className="!bg-gray-900 !p-8 !rounded-lg !shadow-xl !max-w-sm !w-full !space-y-6 !text-white"
@@ -194,16 +266,20 @@ export default function ExperienceAdminPage() {
           <h2 className="!text-2xl !font-bold !mb-6 !text-yellow-400 !text-center">
             Admin Access Required
           </h2>
-          <input
-            type="password"
-            placeholder="Enter Admin Password"
-            value={passwordInput}
-            onChange={(e) => setPasswordInput(e.target.value)}
-            className="!w-full !p-3 !rounded !bg-gray-700 !text-white !focus:outline-none !focus:ring-2 !focus:ring-yellow-500"
-            required
-            autoFocus
-            disabled={authLoading}
-          />
+          <div>
+            <label htmlFor="adminPassword" className="sr-only">Admin Password</label>
+            <input
+              id="adminPassword"
+              type="password"
+              placeholder="Enter Admin Password"
+              value={passwordInput}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setPasswordInput(e.target.value)}
+              className="!w-full !p-3 !rounded !bg-gray-700 !text-white !focus:outline-none !focus:ring-2 !focus:ring-yellow-500"
+              required
+              autoFocus
+              disabled={authLoading}
+            />
+          </div>
           <button
             type="submit"
             disabled={authLoading}
@@ -269,7 +345,7 @@ export default function ExperienceAdminPage() {
               type="text"
               id="organisation"
               name="organisation"
-              value={newExperience.organisation}
+              value={newExperience.organisation || ""}
               onChange={handleNewExperienceChange}
               placeholder="e.g., Tech Solutions Inc."
               className="!w-full !px-4 !py-3 !rounded-lg !bg-gray-700 !text-white !focus:outline-none !focus:ring-2 !focus:ring-yellow-500"
@@ -301,14 +377,14 @@ export default function ExperienceAdminPage() {
                   key={exp._id}
                   className="!bg-gray-700 !p-4 !rounded-lg !flex !flex-col sm:!flex-row !justify-between !items-start sm:!items-center"
                 >
-                  <div className="!mb-3 sm:!mb-0">
+                  <div className="!mb-3 sm:!mb-0 !mr-4 flex-grow">
                     <p className="!text-lg !font-medium !text-yellow-500">{exp.name}</p>
                     <p className="!text-sm !text-gray-300">{exp.timeperiod}</p>
                     {exp.organisation && (
                       <p className="!text-sm !text-gray-400">{exp.organisation}</p>
                     )}
                   </div>
-                  <div className="!flex !space-x-3 !self-end sm:!self-center">
+                  <div className="!flex !space-x-3 !self-end sm:!self-center !flex-shrink-0">
                     <button
                       onClick={() => openUpdateModal(exp)}
                       disabled={loading}
@@ -317,7 +393,7 @@ export default function ExperienceAdminPage() {
                       Update
                     </button>
                     <button
-                      onClick={() => handleDeleteExperience(exp._id!)}
+                      onClick={() => handleDeleteExperience(exp._id)}
                       disabled={loading}
                       className="!bg-red-600 !text-white !px-4 !py-2 !rounded-md !text-sm !hover:bg-red-700 !transition !disabled:opacity-50"
                     >
@@ -333,74 +409,79 @@ export default function ExperienceAdminPage() {
 
       {isUpdateModalOpen && currentExperience && (
         <div className="!fixed !inset-0 !bg-black !bg-opacity-70 !flex !justify-center !items-center !z-50 !p-4">
-          <div className="!bg-gray-800 !p-6 md:!p-8 !rounded-xl !shadow-2xl !w-full !max-w-lg !space-y-6">
+          <form
+            onSubmit={handleUpdateExperienceSubmit}
+            className="!bg-gray-800 !p-6 md:!p-8 !rounded-xl !shadow-2xl !w-full !max-w-lg !space-y-6"
+          >
             <h2 className="!text-2xl !font-bold !text-yellow-400 !mb-4">
               Update Experience
             </h2>
-            <form onSubmit={handleUpdateExperienceSubmit} className="!space-y-4">
-              <div>
-                <label htmlFor="updateName" className="!font-semibold !block !mb-1">
-                  Role / Position Name <span className="!text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="updateName"
-                  name="name"
-                  value={updateFormData.name || ""}
-                  onChange={handleUpdateFormChange}
-                  className="!w-full !px-3 !py-2 !rounded-md !bg-gray-700 !text-white !focus:outline-none !focus:ring-1 !focus:ring-yellow-500"
-                  required
-                  disabled={loading}
-                />
-              </div>
-              <div>
-                <label htmlFor="updateTimeperiod" className="!font-semibold !block !mb-1">
-                  Time Period <span className="!text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="updateTimeperiod"
-                  name="timeperiod"
-                  value={updateFormData.timeperiod || ""}
-                  onChange={handleUpdateFormChange}
-                  className="!w-full !px-3 !py-2 !rounded-md !bg-gray-700 !text-white !focus:outline-none !focus:ring-1 !focus:ring-yellow-500"
-                  required
-                  disabled={loading}
-                />
-              </div>
-              <div>
-                <label htmlFor="updateOrganisation" className="!font-semibold !block !mb-1">
-                  Organisation / Company (Optional)
-                </label>
-                <input
-                  type="text"
-                  id="updateOrganisation"
-                  name="organisation"
-                  value={updateFormData.organisation || ""}
-                  onChange={handleUpdateFormChange}
-                  className="!w-full !px-3 !py-2 !rounded-md !bg-gray-700 !text-white !focus:outline-none !focus:ring-1 !focus:ring-yellow-500"
-                  disabled={loading}
-                />
-              </div>
-              <div className="!flex !justify-end !space-x-3 !pt-2">
-                <button
-                  type="button"
-                  onClick={() => setIsUpdateModalOpen(false)}
-                  disabled={loading}
-                  className="!px-4 !py-2 !bg-gray-600 !text-white !rounded-md !hover:bg-gray-500 !transition !disabled:opacity-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="!px-4 !py-2 !bg-yellow-500 !text-black !font-semibold !rounded-md !hover:bg-yellow-600 !transition !disabled:opacity-50"
-                >
-                  {loading ? "Updating..." : "Save Changes"}
-                </button>
-              </div>
-            </form>
-          </div>
+            <div>
+              <label htmlFor="updateName" className="!font-semibold !block !mb-1">
+                Role / Position Name <span className="!text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="updateName"
+                name="name"
+                value={updateFormData.name || ""}
+                onChange={handleUpdateFormChange}
+                className="!w-full !px-3 !py-2 !rounded-md !bg-gray-700 !text-white !focus:outline-none !focus:ring-1 !focus:ring-yellow-500"
+                required
+                disabled={loading}
+              />
+            </div>
+            <div>
+              <label htmlFor="updateTimeperiod" className="!font-semibold !block !mb-1">
+                Time Period <span className="!text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="updateTimeperiod"
+                name="timeperiod"
+                value={updateFormData.timeperiod || ""}
+                onChange={handleUpdateFormChange}
+                className="!w-full !px-3 !py-2 !rounded-md !bg-gray-700 !text-white !focus:outline-none !focus:ring-1 !focus:ring-yellow-500"
+                required
+                disabled={loading}
+              />
+            </div>
+            <div>
+              <label htmlFor="updateOrganisation" className="!font-semibold !block !mb-1">
+                Organisation / Company (Optional)
+              </label>
+              <input
+                type="text"
+                id="updateOrganisation"
+                name="organisation"
+                value={updateFormData.organisation || ""}
+                onChange={handleUpdateFormChange}
+                className="!w-full !px-3 !py-2 !rounded-md !bg-gray-700 !text-white !focus:outline-none !focus:ring-1 !focus:ring-yellow-500"
+                disabled={loading}
+              />
+            </div>
+            <div className="!flex !justify-end !space-x-3 !pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                    setIsUpdateModalOpen(false);
+                    setCurrentExperience(null); // Clear current experience
+                    setUpdateFormData({}); // Reset update form
+                }}
+                disabled={loading}
+                className="!px-4 !py-2 !bg-gray-600 !text-white !rounded-md !hover:bg-gray-500 !transition !disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="!px-4 !py-2 !bg-yellow-500 !text-black !font-semibold !rounded-md !hover:bg-yellow-600 !transition !disabled:opacity-50"
+              >
+                {loading ? "Updating..." : "Save Changes"}
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </div>

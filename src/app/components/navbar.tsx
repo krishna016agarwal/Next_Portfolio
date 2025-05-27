@@ -18,7 +18,15 @@ type MenuLink = {
   label: string;
 };
 
-export default function Navbar(): JSX.Element {
+// Option 1: Change JSX.Element to React.ReactNode (Recommended Workaround)
+export default function Navbar(): React.ReactNode {
+// Alternative Option 2: (if defining as a const)
+// const Navbar: React.FC = () => {
+// Alternative Option 3: (Least recommended)
+// export default function Navbar(): any {
+// Alternative Option 4: (Let TypeScript infer)
+// export default function Navbar() {
+
   const menuLinks: MenuLink[] = [
     { path: "/", label: "Home" },
     { path: "/about", label: "About" },
@@ -31,11 +39,12 @@ export default function Navbar(): JSX.Element {
   const tl = useRef<gsap.core.Timeline | null>(null);
   const container = useRef<HTMLDivElement | null>(null);
 
+  // YOUR ORIGINAL GSAP LOGIC:
   useGSAP(
     () => {
       tl.current = gsap
         .timeline({ paused: true })
-        .from(".menuoverlay", {
+        .from(".menuoverlay", { // Reverted to your .from
           y: "-100%",
           duration: 0.8,
           ease: "power2.inOut",
@@ -70,13 +79,16 @@ export default function Navbar(): JSX.Element {
   };
 
   const handleLinkClick = (): void => {
-    setIsMenuOpen(false);
+    // Your original logic for handleLinkClick
+    // if (isMenuOpen) { // This check is good to prevent unnecessary reverse
+       setIsMenuOpen(false);
+    // }
   };
 
   return (
     <div ref={container}>
       <div
-        className={`h-20 flex justify-between bg-black items-center ml-10 fixed top-0 left-0 w-full shadow-md z-50 ${style.div}`}
+        className={`h-20 flex justify-between bg-black items-center ml-10 fixed top-0 left-0 w-full shadow-md z-50 ${style.div || ''}`} // Added fallback for style.div
       >
         <div className="text-white text-2xl font-extrabold">
           <Link href="/">
@@ -92,20 +104,20 @@ export default function Navbar(): JSX.Element {
       </div>
 
       <div
-        className={`${style.menuoverlay} menuoverlay ${
-          isMenuOpen ? style.menuVisible : style.menuHidden
+        className={`${style.menuoverlay || ''} menuoverlay ${ // Added fallback for style.menuoverlay
+          isMenuOpen ? (style.menuVisible || '') : (style.menuHidden || '') // Added fallbacks
         }`}
       >
-        <div className={style.menucopy}>
-          <div className={style.menulinks}></div>
+        <div className={style.menucopy || ''}> {/* Added fallback */}
+          <div className={style.menulinks || ''}></div> {/* Added fallback */}
           {menuLinks.map((link) => (
-            <div className={style.menulinkitem} key={link.path}>
+            <div className={style.menulinkitem || ''} key={link.path}> {/* Added fallback */}
               <div
-                className={`${fjallaOne.className} ${style.menulinkitemholder} menulinkitemholder`}
+                className={`${fjallaOne.className} ${style.menulinkitemholder || ''} menulinkitemholder`} 
               >
                 <Link
                   href={link.path}
-                  className={`${style.menulink} menulink`}
+                  className={`${style.menulink || ''} menulink`}
                   onClick={handleLinkClick}
                 >
                   {link.label}

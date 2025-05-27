@@ -9,7 +9,7 @@ import fs from "fs"
     });
     
 
-    const uploadOnCloudinary=async(localFilePath:any)=>{
+    const uploadOnCloudinary=async(localFilePath:string)=>{
 
         try {
             if(!localFilePath) return null;

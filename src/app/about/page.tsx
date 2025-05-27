@@ -5,18 +5,14 @@ import style from "../css/about.module.css";
 import axios from "axios";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import Head from "next/head"; // Still useful for other meta tags
-// Import the font function from next/font/google
-import { Fjalla_One } from "next/font/google";
+
+
 import { useGSAP } from "@gsap/react";
+import Link from "next/link";
 // Initialize the font
-const fjallaOne = Fjalla_One({
-  weight: "400", // Fajalla One only has '400' weight
-  subsets: ["latin"], // Specify subsets you need
-  display: "swap", // Optional: font-display behavior
-});
+
 gsap.registerPlugin(ScrollTrigger);
-export default function page() {
+export default function Page() {
   const [skills, setskills] = useState([]);
   async function skillscalling() {
     const res = await axios.get("/api/skills");
@@ -53,7 +49,7 @@ export default function page() {
     };
     fetchExperience();
   }, []);
-console.log(experience);
+
     useGSAP(() => {
     gsap.from(".head", {
       y: 100,
@@ -169,17 +165,17 @@ console.log(experience);
 
             <div className={style.mainsub}>
               <div className={`${style.abouttext} abouttext`}>
-                I'm a passionate developer who loves turning ideas into
+                I&apos;m a passionate developer who loves turning ideas into
                 interactive, user-friendly digital experiences using modern web
                 technologies.
               </div>
-              <a className={`btn`} href="/contact">
+              <Link className={`btn`} href="/contact">
                 <button
                   className={`${style.btn}  bg-white! text-black! rounded-full! w-70!    text-[1.5rem]!  transition  font-bold! hover:bg-gray-300!  `}
                 >
-                  Let’s Talk →
+                  Let&apos;s Talk →
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -228,7 +224,7 @@ console.log(experience);
             {/* <hr className={style.hr}></hr> */}
             <div className={`${style.box1} box1 ${style.edu}`}>
               <p className={style.eduname}>
-                <span className={style.name}>St. John's sr.sec school</span>
+                <span className={style.name}>St. John&apos;s sr.sec school</span>
                 <br></br>
                 <span className={style.span}>10th</span>
               </p>

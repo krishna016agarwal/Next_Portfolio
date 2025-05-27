@@ -2,8 +2,9 @@ import style from "../css/hero.module.css"; // This path seems correct based on 
 import { Fjalla_One } from "next/font/google";
 import gsap from "gsap";
 
-import { useEffect } from "react";
+
 import { useGSAP } from "@gsap/react";
+import Link from "next/link";
 const fjallaOne = Fjalla_One({
   weight: "400",
   subsets: ["latin"],
@@ -58,7 +59,7 @@ export default function Hero() {
   return (
     <section className={` ${style.section}  flex justify-items-start flex-col lg:py-[72px]! lg:px-[80px]!  relative   `}>
       <h2 className="text-white text-xl mb-6 text-[1.8rem]! font-bold!">
-        Hello! I’m Krishna.
+        Hello! I&apos;m Krishna.
       </h2>
 
       <p className={`${style.head} md:text-[6.8em]! text-[4.8em]! gap-0  text-white font-bold!  mt-2! text-base/21  `}>
@@ -142,11 +143,11 @@ export default function Hero() {
       </p>
 
       <div className={`${style.box}  flex justify-between `}>
-        <a href="/contact" className={` ${style.linkbutton}`}>
+        <Link href="/contact" className={` ${style.linkbutton}`}>
           <button className={` ${style.a} bg-white! text-black! rounded-full! transition px-[54px]! py-[24px]! font-bold! hover:bg-gray-300! text-[1.5rem]!`}>
-            Let’s Talk →
+            Let&apos;s Talk →
           </button>
-        </a>
+        </Link>
         <p className={`  ${style.text} text-gray-300 mt-10 xl:max-w-xl leading-relaxed `}>
           A tech enthusiast transforming ideas into intuitive, functional web
           applications.

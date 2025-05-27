@@ -45,7 +45,7 @@ export async function POST(req: Request) {
   
 
 
-export async function GET(req: Request) {
+export async function GET() {
     await dbConnect();
 
     try {
@@ -86,7 +86,7 @@ export async function GET(req: Request) {
         console.log('Skills display error');
         return Response.json({
             success: false,
-            message: "Error"
+            message: error
         })
     }
 }

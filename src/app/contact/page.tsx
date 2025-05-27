@@ -1,5 +1,5 @@
 'use client'
-import style from "../css/about.module.css";
+
 import styles from "../css/contact.module.css";
 import Head from 'next/head'; // Still useful for other meta tags
 
@@ -17,7 +17,7 @@ const fjallaOne = Fjalla_One({
 });
 
 export default function ContactPage() {
-  const tl=gsap.timeline();
+
   useGSAP(()=>{
     gsap.from(".label",{
 y:50,

@@ -1,283 +1,304 @@
 import { NextRequest, NextResponse } from 'next/server';
-
 import fs from 'fs';
-
-import { parseFormData } from '@/helpers/parseForm';
+import { parseFormData, ParsedFormData, UploadedFile } from '@/helpers/parseForm';
 import { uploadOnCloudinary } from '@/helpers/cloudinary';
-import ProjectModel from '@/model/project'; // adjust this if needed
-import dbConnect from '@/lib/dbConnect'; // adjust this path if needed
+import ProjectModel, { Project as IProjectType } from '@/model/project';
+import dbConnect from '@/lib/dbConnect';
 
 export const dynamic = 'force-dynamic';
+
+// Define a type for the data used to CREATE a new project.
+// This should only include the fields you define in your schema.
+interface ProjectCreationData {
+  name: string;
+  github: string;
+  projectLink?: string; // Optional based on your schema, make it required if it is
+  technologiesUsed: string[];
+  image: string | null; // Mongoose will handle 'null' if your schema allows it or has a default
+}
+
+
+// --- POST Handler ---
 export async function POST(req: Request) {
   await dbConnect();
 
   try {
-    const { fields, files } = await parseFormData(req);
+    const parsedData: ParsedFormData = await parseFormData(req);
+    const fields = parsedData.fields;
+    const files = parsedData.files;
 
-    // Split the 'technologiesUsed' field by commas and trim any extra spaces
-    const technologiesArray = fields.technologiesUsed
-      ? fields.technologiesUsed.split(',').map((tech:any) => tech.trim())
+    const name = fields.name;
+    const github = fields.github;
+    const technologiesUsedString = fields.technologiesUsed;
+    const projectLink = fields.projectLink;
+
+    if (!name || !github) {
+        return NextResponse.json(
+            { success: false, message: 'Project name and GitHub link are required.' },
+            { status: 400 }
+        );
+    }
+
+    const technologiesArray: string[] = technologiesUsedString
+      ? technologiesUsedString.split(',').map((tech: string) => tech.trim()).filter(Boolean)
       : [];
 
-    const localImagePath = files.image?.filepath;
-    const cloudinaryUrl = await uploadOnCloudinary(localImagePath);
+    let cloudinaryUrl: string | null = null;
+    const imageFile: UploadedFile | undefined = files.image;
+    let localImagePathForCleanup: string | undefined;
 
-    if (fs.existsSync(localImagePath)) fs.unlinkSync(localImagePath);
+    if (imageFile && imageFile.filepath) {
+      const localImagePath = imageFile.filepath;
+      localImagePathForCleanup = localImagePath;
 
-    const project = await ProjectModel.create({
-      name: fields.name,
-      github: fields.github,
-      projectLink: fields.projectLink,
-      technologiesUsed: technologiesArray, // Now an array of technologies
-      image: cloudinaryUrl,
-    });
+      const uploadedUrl = await uploadOnCloudinary(localImagePath);
+      if (uploadedUrl) {
+        cloudinaryUrl = uploadedUrl;
+      } else {
+        console.warn("Cloudinary upload in POST returned no URL.");
+      }
+    } else if (imageFile && !imageFile.filepath) {
+        console.warn("[POST] Image file object received but filepath is missing:", imageFile);
+    }
+
+    // Use the new ProjectCreationData interface
+    const projectData: ProjectCreationData = {
+      name: name,
+      github: github,
+      projectLink: projectLink || undefined, // Use undefined if optional and not provided
+      technologiesUsed: technologiesArray,
+      image: cloudinaryUrl, // Your model's image type is 'string', but 'null' is fine for creation if schema allows
+    };
+
+    const createdProject: IProjectType = await ProjectModel.create(projectData); // Mongoose handles this correctly
+
+    if (localImagePathForCleanup && fs.existsSync(localImagePathForCleanup)) {
+      try {
+        fs.unlinkSync(localImagePathForCleanup);
+      } catch (unlinkErr) {
+        console.error("Error deleting local image after POST:", unlinkErr);
+      }
+    }
 
     return NextResponse.json({
       success: true,
       message: 'Project added successfully',
-      project,
+      project: createdProject,
     });
-  } catch (error) {
-    console.error('Upload Error:', error);
+
+  } catch (error: unknown) {
+    let errorMessage = 'Failed to add project.';
+    if (error instanceof Error) {
+        errorMessage = error.message;
+    }
+    console.error('Error adding project:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to upload project' },
+      { success: false, message: errorMessage },
       { status: 500 }
     );
   }
 }
 
-export async function GET(req: Request) {
+// --- GET Handler ---
+export async function GET() {
   await dbConnect();
-  const data = await ProjectModel.find();
-
-  if (data) {
-    return Response.json({
-      success: true, data: data
-    })
-  }
-
   try {
+    const data: IProjectType[] = await ProjectModel.find().sort({ createdAt: -1 });
 
-  } catch (error) {
-    console.log('Error in project display',error);
-    return Response.json({
+    return NextResponse.json({
+      success: true,
+      data: data,
+    });
+  } catch (error: unknown) {
+    let errorMessage = "Error fetching projects.";
+    if (error instanceof Error) {
+        errorMessage = error.message;
+    }
+    console.error('Error fetching projects:', error);
+    return NextResponse.json({
       success: false,
-      message: "ERROR in project display",
-      data:error
-    })
+      message: errorMessage,
+    }, { status: 500 });
   }
 }
 
+// --- PATCH Handler ---
+interface ProjectUpdatePayload {
+  name?: string;
+  github?: string;
+  projectLink?: string;
+  image?: string | null;
+  technologiesUsed?: string[];
+}
 
 export async function PATCH(req: NextRequest) {
   await dbConnect();
 
   try {
-    const { fields, files } = await parseFormData(req); // Parse the form data
-console.log(fields,files);
+    const parsedData: ParsedFormData = await parseFormData(req);
+    const fields = parsedData.fields;
+    const files = parsedData.files;
 
     const projectId = fields.id;
     if (!projectId) {
       return NextResponse.json({
         success: false,
-        message: "Project ID is required.",
+        message: "Project ID is required for update.",
       }, { status: 400 });
     }
 
-    
-    // Handle the image upload (if a new image is provided)
-    let cloudinaryUrl = fields.image; // Default to existing image URL (if not updating the image)
-    if (files.image) {
-      const localImagePath = files.image?.filepath;
-      cloudinaryUrl = await uploadOnCloudinary(localImagePath);
+    let imageToUpdate: string | null | undefined;
+    let localImagePathForCleanup: string | undefined;
 
-      // Delete the local image after upload to Cloudinary
-      if (fs.existsSync(localImagePath)) fs.unlinkSync(localImagePath);
+    const existingProject = await ProjectModel.findById(projectId);
+    if (!existingProject) {
+        return NextResponse.json({ success: false, message: "Project not found to update." }, { status: 404 });
+    }
+    // Your `Project` interface defines `image: string`. If the DB can have it as null/undefined initially:
+    imageToUpdate = existingProject.image as (string | null | undefined);
+
+
+    if (fields.image !== undefined) {
+        if (fields.image === "" || fields.image === null) {
+            imageToUpdate = null;
+        } else {
+            if (!files.image) {
+               imageToUpdate = fields.image;
+            }
+        }
     }
 
 
-    // Construct the update object based on the fields
-    const updates = {
-      name: fields.name,
-      github: fields.github,
-      projectLink: fields.projectLink,
-      
-      image: cloudinaryUrl, // Update the image field (if provided)
-    };
-    if ('technologiesUsed' in fields) {
-      updates.technologiesUsed = fields.technologiesUsed
-        .split(',')
-        .map((tech: any) => tech.trim());
+    const newImageFile: UploadedFile | undefined = files.image;
+    if (newImageFile && newImageFile.filepath) {
+      const localPath = newImageFile.filepath;
+      localImagePathForCleanup = localPath;
+
+      try {
+        const newCloudinaryUrl = await uploadOnCloudinary(localPath);
+        if (newCloudinaryUrl) {
+          imageToUpdate = newCloudinaryUrl;
+        } else {
+          console.error("Cloudinary upload (PATCH) returned no URL for the new image.");
+        }
+      } catch (uploadError: unknown) {
+        console.error("Error processing new image (PATCH):", uploadError);
+      }
+    } else if (newImageFile && !newImageFile.filepath) {
+        console.warn("[PATCH] New image file object received but filepath is missing:", newImageFile);
     }
-    // Update the project in the database
-    const updatedProject = await ProjectModel.findByIdAndUpdate(
+
+
+    const updates: ProjectUpdatePayload = {};
+    if (fields.name !== undefined && fields.name !== existingProject.name) updates.name = fields.name;
+    if (fields.github !== undefined && fields.github !== existingProject.github) updates.github = fields.github;
+    if (fields.projectLink !== undefined && fields.projectLink !== (existingProject.projectLink || "")) {
+        updates.projectLink = fields.projectLink;
+    }
+
+    const currentImageInDb = existingProject.image as (string | null | undefined); // Cast for comparison
+    if (imageToUpdate !== currentImageInDb) { // Check if image has actually changed
+        updates.image = imageToUpdate;
+    }
+
+    if (fields.technologiesUsed && typeof fields.technologiesUsed === 'string') {
+      const newTechArray = fields.technologiesUsed.split(',').map((tech: string) => tech.trim()).filter(Boolean);
+      if (JSON.stringify(newTechArray) !== JSON.stringify(existingProject.technologiesUsed || [])) { // Ensure existing is array for compare
+        updates.technologiesUsed = newTechArray;
+      }
+    }
+
+    if (Object.keys(updates).length === 0) {
+        if (localImagePathForCleanup && fs.existsSync(localImagePathForCleanup)) {
+           fs.unlinkSync(localImagePathForCleanup);
+        }
+        return NextResponse.json({
+            success: true,
+            message: "No effective changes provided to update.",
+            project: existingProject,
+        }, { status: 200 });
+    }
+
+    const updatedProjectDoc: IProjectType | null = await ProjectModel.findByIdAndUpdate(
       projectId,
       { $set: updates },
       { new: true, runValidators: true }
     );
 
-    if (!updatedProject) {
+    if (localImagePathForCleanup && fs.existsSync(localImagePathForCleanup)) {
+        try {
+            fs.unlinkSync(localImagePathForCleanup);
+        } catch (unlinkErr) {
+            console.error("Error deleting local image after PATCH:", unlinkErr);
+        }
+    }
+
+    if (!updatedProjectDoc) {
       return NextResponse.json({
         success: false,
-        message: "Project not found",
+        message: "Project not found or failed to update.",
       }, { status: 404 });
     }
 
     return NextResponse.json({
       success: true,
       message: "Project updated successfully",
-      project: updatedProject,
+      project: updatedProjectDoc,
     });
-  } catch (error) {
+
+  } catch (error: unknown) {
+    let errorMessage = 'Failed to update project.';
+    if (error instanceof Error) {
+        errorMessage = error.message;
+    }
     console.error("Error updating project:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to update project" },
+      { success: false, message: errorMessage },
       { status: 500 }
     );
   }
 }
+
+// --- DELETE Handler ---
+interface DeleteRequestBody {
+    id?: string;
+}
+
 export async function DELETE(req: Request) {
   await dbConnect();
 
   try {
-    const {id} = await req.json();
+    const body: DeleteRequestBody = await req.json();
+    const { id } = body;
 
-
-    const project = await ProjectModel.findByIdAndDelete(id);
-    if (project) {
-      return Response.json({
-        success: true, message: 'Project deleted successfully'
-      })
+    if (!id) {
+        return NextResponse.json(
+            { success: false, message: "Project ID is required for deletion." },
+            { status: 400 }
+        );
     }
 
-return Response.json({
+    const projectToDelete: IProjectType | null = await ProjectModel.findByIdAndDelete(id);
+
+    if (projectToDelete) {
+      return NextResponse.json({
+        success: true, message: 'Project deleted successfully'
+      });
+    }
+
+    return NextResponse.json({
       success: false,
-      message: "Project not found"
-    })
-  } catch (error) {
-    console.log('Error in project submission');
-    return Response.json({
-      success: false,
-      message: "Error in Project Submission"
-    })
+      message: "Project not found."
+    }, { status: 404 });
+
+  } catch (error: unknown) {
+    let errorMessage = "Error deleting project.";
+    if (error instanceof Error) {
+        errorMessage = error.message;
+    }
+    console.error('Error deleting project:', error);
+    return NextResponse.json(
+      { success: false, message: errorMessage },
+      { status: 500 });
   }
 }
-
-//frotend
-// 'use client';
-
-// import { useState } from 'react';
-
-// export default function UpdateProjectForm() {
-//   const [formData, setFormData] = useState({
-//     id: '',
-//     name: '',
-//     github: '',
-//     projectLink: '',
-//     image: '',
-//     technologiesUsed: ''
-//   });
-
-//   const [response, setResponse] = useState(null);
-
-//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//   };
-
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-
-//     // Prepare dynamic update object
-//     const updates: any = {};
-//     for (const key in formData) {
-//       if (key !== 'id' && formData[key as keyof typeof formData]) {
-//         if (key === 'technologiesUsed') {
-//           updates[key] = formData[key].split(',').map(tech => tech.trim());
-//         } else {
-//           updates[key] = formData[key];
-//         }
-//       }
-//     }
-
-//     try {
-//       const res = await fetch('/api/projects', {
-//         method: 'PATCH',
-//         headers: {
-//           'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({ id: formData.id, updates })
-//       });
-
-//       const data = await res.json();
-//       setResponse(data);
-//     } catch (error) {
-//       console.error('Error:', error);
-//     }
-//   };
-
-//   return (
-//     <div className="max-w-xl mx-auto p-4 border rounded-lg shadow-md mt-8">
-//       <h2 className="text-xl font-semibold mb-4">Update Project</h2>
-//       <form onSubmit={handleSubmit} className="space-y-4">
-//         <input
-//           type="text"
-//           name="id"
-//           placeholder="Project ID (required)"
-//           className="w-full p-2 border rounded"
-//           onChange={handleChange}
-//           required
-//         />
-//         <input
-//           type="text"
-//           name="name"
-//           placeholder="Project Name"
-//           className="w-full p-2 border rounded"
-//           onChange={handleChange}
-//         />
-//         <input
-//           type="text"
-//           name="github"
-//           placeholder="GitHub Link"
-//           className="w-full p-2 border rounded"
-//           onChange={handleChange}
-//         />
-//         <input
-//           type="text"
-//           name="projectLink"
-//           placeholder="Live Project Link"
-//           className="w-full p-2 border rounded"
-//           onChange={handleChange}
-//         />
-//         <input
-//           type="text"
-//           name="image"
-//           placeholder="Image URL"
-//           className="w-full p-2 border rounded"
-//           onChange={handleChange}
-//         />
-//         <input
-//           type="text"
-//           name="technologiesUsed"
-//           placeholder="Technologies (comma-separated)"
-//           className="w-full p-2 border rounded"
-//           onChange={handleChange}
-//         />
-//         <button
-//           type="submit"
-//           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-//         >
-//           Update Project
-//         </button>
-//       </form>
-
-//       {response && (
-//         <div className="mt-4">
-//           <h3 className="font-medium">Server Response:</h3>
-//           <pre className="bg-gray-100 p-2 rounded text-sm">
-//             {JSON.stringify(response, null, 2)}
-//           </pre>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }

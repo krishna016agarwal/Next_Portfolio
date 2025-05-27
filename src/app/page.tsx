@@ -5,8 +5,7 @@ import style2 from "./css/loader.module.css";
 import { useEffect } from "react";
 import Footer from "./components/footer";
 import Hero from "./components/hero";
-import style from "./css/about.module.css";
-import Scroll from "./components/scroll";
+
 
 export default function Home() {
   useEffect(() => {
