@@ -103,7 +103,7 @@ export async function POST(req: Request) {
 export async function GET() {
   await dbConnect();
   try {
-    const data: IProjectType[] = await ProjectModel.find().sort({ createdAt: -1 });
+    const data: IProjectType[] = await ProjectModel.find().sort({ updatedAt: -1 });
 
     return NextResponse.json({
       success: true,
