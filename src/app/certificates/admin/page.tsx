@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 export default function AdminPage() {
   const [passwordInput, setPasswordInput] = useState("");
@@ -164,7 +165,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="!min-h-screen !bg-black !text-white !p-8">
+    <div className="!min-h-screen !bg-black !text-white !p-8 mt-20!">
       <form
         onSubmit={handleAddCertificate}
         className="!bg-gray-900 !p-6 !rounded-xl !max-w-md !mx-auto !space-y-4"
@@ -216,7 +217,7 @@ export default function AdminPage() {
             <div>
               <p className="!font-medium">{cert.name}</p>
               <p className="!font-medium">{cert.instituteName}</p>
-              <img
+              <Image width={150} height={100}
                 src={cert.image}
                 alt={cert.name}
                 className="!h-24 !mt-2 !rounded-lg"

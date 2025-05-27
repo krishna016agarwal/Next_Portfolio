@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import style from "../css/card.module.css"; // Ensure this path is correct
+import Image from "next/image";
 
 interface Project {
   _id: string; // Essential for unique keys
@@ -58,7 +59,7 @@ export default function Card() {
         >
        
           <div className={`relative w-full! h-[80%]! mb-6!  flex items-center justify-center overflow-hidden rounded-lg ${style.img2}`}>
-            <img
+            <Image width={100} height={100}
               src={e.image}
               alt={e.name}
               className="absolute inset-0 w-full  object-cover"

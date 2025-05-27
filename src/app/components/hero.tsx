@@ -5,6 +5,7 @@ import gsap from "gsap";
 
 import { useGSAP } from "@gsap/react";
 import Link from "next/link";
+import Image from "next/image";
 const fjallaOne = Fjalla_One({
   weight: "400",
   subsets: ["latin"],
@@ -175,7 +176,7 @@ export default function Hero() {
                 );
               } else if (part.type === 'gif') {
                 return (
-                  <img
+                  <Image width={1000} height={1000}
                     key={partIndex}
                     src={part.content} // This will now be '/gifs/your-gif.gif'
                     alt=""

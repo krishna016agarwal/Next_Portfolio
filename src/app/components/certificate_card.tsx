@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import style from "../css/certificate.module.css"; // Make sure this path is correct
+import Image from "next/image";
 
 interface Certificate {
   _id: string;
@@ -47,7 +48,7 @@ export default function Certificate_card() {
           style={{ fontFamily: "Fjalla One", fontWeight: "normal" }}
         >
           <div className={style.imageContainer}>
-            <img
+            <Image width={1000} height={1000}
               src={certificate.image}
               alt={certificate.name}
               className={style.image}
