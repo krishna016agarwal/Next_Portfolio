@@ -5,9 +5,9 @@
 @import "tailwindcss/preflight";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --framer-font-family: "Inter Tight", "Inter Tight Placeholder", sans-serif;
+ --background: #0a0a0a;
+ --foreground: #ededed;
+ --framer-font-family: "Inter Tight", "Inter Tight Placeholder", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
