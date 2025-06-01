@@ -1,7 +1,8 @@
+// src/app/about/page.tsx
 "use client";
-import Footer from "../components/footer";
+import Footer from "../components/footer"; // Assuming this is src/app/components/footer
 import React, { useState, useEffect } from "react";
-import style from "../css/about.module.css";
+import style from "../css/about.module.css"; // Assuming this is src/app/css/about.module.css
 import axios from "axios";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -9,14 +10,34 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 import { useGSAP } from "@gsap/react";
 import Link from "next/link";
-// Initialize the font
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Helper function to get an error message string
+function getClientErrorMessage(error: unknown): string {
+    if (error instanceof Error) {
+        return error.message;
+    }
+    if (typeof error === 'string') {
+        return error;
+    }
+    return "An unexpected error occurred."; // Generic fallback
+}
+
+
 export default function Page() {
+  // Your original state declarations
   const [skills, setskills] = useState([]);
   async function skillscalling() {
-    const res = await axios.get("/api/skills");
-    setskills(res.data.skills);
+    // Not modifying this fetch logic, assuming it works for you
+    // but a try/catch here would also benefit from typed errors
+    try {
+        const res = await axios.get("/api/skills");
+        setskills(res.data.skills);
+    } catch (error: unknown) { // Typed error
+        console.error("Error fetching skills:", getClientErrorMessage(error));
+        // Decide how to handle skills error, e.g., setskills([]) or show an error
+    }
   }
   useEffect(() => {
     skillscalling();
@@ -29,27 +50,61 @@ export default function Page() {
     organisation: string;
   }
   const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [isLoadingUrl, setIsLoadingUrl] = useState(true); 
+  const [fetchError, setFetchError] = useState<string | null>(null); 
   const [experience, setexperience] = useState<Experience[]>([]);
 
   useEffect(() => {
     const fetchUrl = async () => {
-      const res = await fetch("/api/resume/latest");
-      const data = await res.json();
-      setFileUrl(data.fileUrl);
+      setIsLoadingUrl(true);
+      setFetchError(null);
+      try {
+        const res = await fetch("/api/resume/latest");
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({ message: `Failed to fetch resume URL. Status: ${res.status}` }));
+          // Throw an error object for consistent handling in catch
+          throw new Error(errorData.message || `Failed to fetch resume URL. Status: ${res.status}`);
+        }
+        const data = await res.json();
+        if (data.fileUrl) {
+          setFileUrl(data.fileUrl);
+        } else {
+          console.warn("Resume URL not found in API response:", data);
+          setFetchError(data.message || "Resume URL not found.");
+          setFileUrl(null); 
+        }
+      } catch (error: unknown) { // MODIFIED: error type to unknown
+        // This is where the Line 41 error for this file would occur if it's this catch block
+        const clientMessage = getClientErrorMessage(error);
+        console.error("Network or other error fetching resume URL:", clientMessage, error); // Log original error too
+        setFetchError(clientMessage); 
+        setFileUrl(null); 
+      } finally {
+        setIsLoadingUrl(false);
+      }
     };
     fetchUrl();
-  }, []);
+  }, []); 
 
   useEffect(() => {
     const fetchExperience = async () => {
-      const res = await fetch("/api/experience");
-      const data = await res.json();
-
-      setexperience(data.data);
+      try { // Added try/catch for fetchExperience
+        const res = await fetch("/api/experience");
+         if (!res.ok) {
+          const errorData = await res.json().catch(() => ({ message: `Failed to fetch experience. Status: ${res.status}` }));
+          throw new Error(errorData.message || `Failed to fetch experience. Status: ${res.status}`);
+        }
+        const data = await res.json();
+        setexperience(data.data);
+      } catch (error: unknown) { // Typed error
+        console.error("Error fetching experience:", getClientErrorMessage(error), error);
+        // Decide how to handle experience error, e.g., setexperience([]) or show an error
+      }
     };
     fetchExperience();
   }, []);
 
+  // Your original useGSAP
     useGSAP(() => {
     gsap.from(".head", {
       y: 100,
@@ -96,13 +151,10 @@ export default function Page() {
         scroller: "body",
       },
     });
-    
- 
-
   });
 
 
-
+  // Your original return JSX
   return (
     <>
       <div className={`${style.outer} outer`}>
@@ -233,7 +285,7 @@ export default function Page() {
           </div>
         </div>
 
-        {experience.length != 0 && (
+        {experience.length !== 0 && ( // Maintained original condition
           <div className={`${style.edudiv} exper`}>
             <p
               className={`${style.education} experience ${style.edu} gap-0 mb-4! text-white font-bold!  mt-2! lg:text-base/21 .  `}
@@ -266,14 +318,22 @@ export default function Page() {
         )}
 
         <div className={`${style.cv} cv`}>
-          <div className={`${style.resume} resume`}>
+           <div className={`${style.resume} resume`}>
+          {isLoadingUrl && <p className="text-white">Loading resume link...</p>}
+          {!isLoadingUrl && fetchError && <p className="text-red-500">{fetchError}</p>} {/* Added fetchError display */}
+          {!isLoadingUrl && !fetchError && fileUrl && (
             <button
               onClick={() => fileUrl && window.open(fileUrl, "_blank")}
-              className={`  rounded-full!    transition px-[54px]! py-[24px]! font-bold!  text-[1.3rem]! ${style.resumebutton}`}
+              disabled={!fileUrl} 
+              className={`rounded-full! transition px-[54px]! py-[24px]! font-bold! text-[1.3rem]! ${style.resumebutton} ${!fileUrl ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               Resume
             </button>
-          </div>
+          )}
+          {!isLoadingUrl && !fetchError && !fileUrl && (
+             <p className="text-gray-400">No resume available at the moment.</p>
+          )}
+        </div>
 
           <Footer></Footer>
         </div>
