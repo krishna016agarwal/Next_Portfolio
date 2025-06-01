@@ -1,6 +1,6 @@
 # 🚀 Personal Portfolio Website
 
-**🌐 Live Demo:** [https://lnkd.in/emwTjU7Z](https://lnkd.in/emwTjU7Z)
+**🌐 Live Demo:** [https://lnkd.in/emwTjU7Z](https://next-portfolio-six-gamma.vercel.app/)
 
 Welcome to my personal portfolio — a dynamic, full-stack web application built with **Next.js**.  
 It’s more than just a showcase — it's a live, evolving space reflecting my work, growth, and journey as a developer.
