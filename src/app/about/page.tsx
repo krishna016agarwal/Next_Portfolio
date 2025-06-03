@@ -269,7 +269,7 @@ export default function Page() {
               <p className={style.eduname}>
                 <span className={style.name}>Lovely Public sr.sec school</span>
                 <br></br>
-                <span className={style.span}>12th PCM</span>
+                <span className={style.span}>12th PCM (94.6%)</span>
               </p>
               <p className={style.eduyear}>2024</p>
             </div>
@@ -278,7 +278,7 @@ export default function Page() {
               <p className={style.eduname}>
                 <span className={style.name}>St. John&apos;s sr.sec school</span>
                 <br></br>
-                <span className={style.span}>10th</span>
+                <span className={style.span}>10th (93.6%)</span>
               </p>
               <p className={style.eduyear}>2022</p>
             </div>
