@@ -260,7 +260,7 @@ export default function Page() {
                   Maharaja Agrasen Institute of Technology
                 </span>
                 <br></br>
-                <span className={style.span}>B.tech (CSE)</span>
+                <span className={style.span}>B.tech (CSE)-8.92</span>
               </p>
               <p className={style.eduyear}>2024-2028</p>
             </div>
