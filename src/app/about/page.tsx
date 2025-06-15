@@ -262,7 +262,7 @@ export default function Page() {
                 <br></br>
                 <span className={style.span}>B.tech (CSE)-8.92</span>
               </p>
-              <p className={style.eduyear}>2024-2028</p>
+              <p className={style.eduyear}>2028</p>
             </div>
 
             <div className={`${style.box1} box1  ${style.edu}`}>
